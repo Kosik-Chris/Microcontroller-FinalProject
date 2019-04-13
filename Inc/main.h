@@ -80,20 +80,6 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define startSig_Pin GPIO_PIN_2
-#define startSig_GPIO_Port GPIOE
-#define stopSig_Pin GPIO_PIN_3
-#define stopSig_GPIO_Port GPIOE
-#define startLED_Pin GPIO_PIN_13
-#define startLED_GPIO_Port GPIOC
-#define processLED_Pin GPIO_PIN_14
-#define processLED_GPIO_Port GPIOC
-#define stopLED_Pin GPIO_PIN_15
-#define stopLED_GPIO_Port GPIOC
-#define motorPWM_Pin GPIO_PIN_3
-#define motorPWM_GPIO_Port GPIOA
-#define auidoOUT_Pin GPIO_PIN_4
-#define auidoOUT_GPIO_Port GPIOA
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
