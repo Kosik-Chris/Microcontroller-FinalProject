@@ -57,15 +57,15 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
-int x=0; // signal high or low from capture input
 extern int s;
 extern double fall,rise;
 extern double period, freq;
+double currPosInch = 0;
+int edgeCount = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -208,16 +208,8 @@ void SysTick_Handler(void)
   
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
-  if(x==0){
-  HAL_GPIO_WritePin(GPIOD,GPIO_PIN_0,GPIO_PIN_SET);
-  x=1;
-  printf("hi\n");
-  }
-   if(x==1){
-  HAL_GPIO_WritePin(GPIOD,GPIO_PIN_0,GPIO_PIN_RESET);
-  x=0;
-   printf("ll\n");
-  }
+
+  HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_9);
   /* USER CODE END SysTick_IRQn 1 */
 }
 
@@ -234,7 +226,11 @@ void SysTick_Handler(void)
 void TIM2_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM2_IRQn 0 */
- 
+
+  /* USER CODE END TIM2_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim2);
+  /* USER CODE BEGIN TIM2_IRQn 1 */
+
   if(s==1){
   rise= TIM2->CCR1;
   s=0;
@@ -244,14 +240,40 @@ void TIM2_IRQHandler(void)
   freq=(1000.0/period);
   s=1;
   }
-  
  
-
-  /* USER CODE END TIM2_IRQn 0 */
-  HAL_TIM_IRQHandler(&htim2);
-  /* USER CODE BEGIN TIM2_IRQn 1 */
-
   /* USER CODE END TIM2_IRQn 1 */
+}
+
+/**
+  * @brief This function handles EXTI line[15:10] interrupts.
+  */
+void EXTI15_10_IRQHandler(void)
+{
+  /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+
+  /* USER CODE END EXTI15_10_IRQn 0 */
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+  /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+  //Interrupt triggered on rising edge
+  //every 8 detected edges will equal one block
+  //so 20 edges = 2.5 cm = 1 inch
+  //24 blocks in total
+  //stop at 4 blocks in and 20 blocks in
+  // 8 edges = 1cm = 
+  //160 edges in length
+  edgeCount++;
+  currPosInch += 0.049; //inch per pulse
+//    if(edgeCount > 40 && edgeCount <100){
+//        HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_RESET);
+//  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_RESET);
+//    }
+//    if(edgeCount > 100 && edgeCount < 160){
+//        HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_RESET);
+//  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_RESET);
+//    }
+  printf("Rising pulse edge %d\n",edgeCount);
+  printf("Current position in inches = %.2f\n",currPosInch);
+  /* USER CODE END EXTI15_10_IRQn 1 */
 }
 
 /**

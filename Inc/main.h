@@ -80,6 +80,41 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define START_Pin GPIO_PIN_2
+#define START_GPIO_Port GPIOE
+#define STOP_Pin GPIO_PIN_3
+#define STOP_GPIO_Port GPIOE
+#define GREENLED_Pin GPIO_PIN_13
+#define GREENLED_GPIO_Port GPIOC
+#define YELLOWLED_Pin GPIO_PIN_14
+#define YELLOWLED_GPIO_Port GPIOC
+#define REDLED_Pin GPIO_PIN_15
+#define REDLED_GPIO_Port GPIOC
+#define RS_Pin GPIO_PIN_0
+#define RS_GPIO_Port GPIOF
+#define RW_Pin GPIO_PIN_1
+#define RW_GPIO_Port GPIOF
+#define En_Pin GPIO_PIN_2
+#define En_GPIO_Port GPIOF
+#define inputSIG_Pin GPIO_PIN_0
+#define inputSIG_GPIO_Port GPIOA
+#define pwmOUT_Pin GPIO_PIN_12
+#define pwmOUT_GPIO_Port GPIOD
+#define pulseCount_Pin GPIO_PIN_10
+#define pulseCount_GPIO_Port GPIOC
+#define pulseCount_EXTI_IRQn EXTI15_10_IRQn
+#define audioOUT_Pin GPIO_PIN_9
+#define audioOUT_GPIO_Port GPIOG
+#define forMOTOR_Pin GPIO_PIN_10
+#define forMOTOR_GPIO_Port GPIOG
+#define revMOTOR_Pin GPIO_PIN_11
+#define revMOTOR_GPIO_Port GPIOG
+#define startIR_Pin GPIO_PIN_12
+#define startIR_GPIO_Port GPIOG
+#define stopIR_Pin GPIO_PIN_13
+#define stopIR_GPIO_Port GPIOG
+#define directionSELECT_Pin GPIO_PIN_14
+#define directionSELECT_GPIO_Port GPIOG
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

@@ -1,0 +1,216 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.2.178/W32 for ARM         19/Apr/2019  15:28:50
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\stm32f4xx_hal_timebase_tim.c
+#    Command line =  
+#        -f C:\Users\chris\AppData\Local\Temp\EW5F73.tmp
+#        ("L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\stm32f4xx_hal_timebase_tim.c"
+#        -D USE_HAL_DRIVER -D STM32F429xx -lcN "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\List"
+#        -o "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\Obj"
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Full.h" -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Inc\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Device/ST/STM32F4xx/Include\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Include\"
+#        -Ohz -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.2\arm\CMSIS\Core\Include\" -I "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 8.2\arm\CMSIS\DSP\Include\")
+#    Locale       =  C
+#    List file    =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\List\stm32f4xx_hal_timebase_tim.lst
+#    Object file  =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\Obj\stm32f4xx_hal_timebase_tim.o
+#
+###############################################################################
+
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\stm32f4xx_hal_timebase_tim.c
+      1          /* USER CODE BEGIN Header */
+      2          /**
+      3            ******************************************************************************
+      4            * @file    stm32f4xx_hal_timebase_TIM.c 
+      5            * @brief   HAL time base based on the hardware TIM.
+      6            ******************************************************************************
+      7            ** This notice applies to any and all portions of this file
+      8            * that are not between comment pairs USER CODE BEGIN and
+      9            * USER CODE END. Other portions of this file, whether 
+     10            * inserted by the user or by software development tools
+     11            * are owned by their respective copyright owners.
+     12            *
+     13            * COPYRIGHT(c) 2019 STMicroelectronics
+     14            *
+     15            * Redistribution and use in source and binary forms, with or without modification,
+     16            * are permitted provided that the following conditions are met:
+     17            *   1. Redistributions of source code must retain the above copyright notice,
+     18            *      this list of conditions and the following disclaimer.
+     19            *   2. Redistributions in binary form must reproduce the above copyright notice,
+     20            *      this list of conditions and the following disclaimer in the documentation
+     21            *      and/or other materials provided with the distribution.
+     22            *   3. Neither the name of STMicroelectronics nor the names of its contributors
+     23            *      may be used to endorse or promote products derived from this software
+     24            *      without specific prior written permission.
+     25            *
+     26            * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+     27            * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+     28            * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+     29            * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+     30            * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+     31            * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+     32            * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+     33            * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+     34            * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+     35            * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     36            *
+     37            ******************************************************************************
+     38            */
+     39          /* USER CODE END Header */
+     40          
+     41          /* Includes ------------------------------------------------------------------*/
+     42          #include "stm32f4xx_hal.h"
+     43          #include "stm32f4xx_hal_tim.h"
+     44           
+     45          /* Private typedef -----------------------------------------------------------*/
+     46          /* Private define ------------------------------------------------------------*/
+     47          /* Private macro -------------------------------------------------------------*/
+     48          /* Private variables ---------------------------------------------------------*/
+     49          TIM_HandleTypeDef        htim7; 
+     50          /* Private function prototypes -----------------------------------------------*/
+     51          /* Private functions ---------------------------------------------------------*/
+     52          
+     53          /**
+     54            * @brief  This function configures the TIM7 as a time base source. 
+     55            *         The time source is configured  to have 1ms time base with a dedicated 
+     56            *         Tick interrupt priority. 
+     57            * @note   This function is called  automatically at the beginning of program after
+     58            *         reset by HAL_Init() or at any time when clock is configured, by HAL_RCC_ClockConfig(). 
+     59            * @param  TickPriority: Tick interrupt priority.
+     60            * @retval HAL status
+     61            */
+     62          HAL_StatusTypeDef HAL_InitTick(uint32_t TickPriority)
+     63          {
+     64            RCC_ClkInitTypeDef    clkconfig;
+     65            uint32_t              uwTimclock = 0;
+     66            uint32_t              uwPrescalerValue = 0;
+     67            uint32_t              pFLatency;
+     68            
+     69            /*Configure the TIM7 IRQ priority */
+     70            HAL_NVIC_SetPriority(TIM7_IRQn, TickPriority ,0); 
+     71            
+     72            /* Enable the TIM7 global Interrupt */
+     73            HAL_NVIC_EnableIRQ(TIM7_IRQn); 
+     74            
+     75            /* Enable TIM7 clock */
+     76            __HAL_RCC_TIM7_CLK_ENABLE();
+     77            
+     78            /* Get clock configuration */
+     79            HAL_RCC_GetClockConfig(&clkconfig, &pFLatency);
+     80            
+     81            /* Compute TIM7 clock */
+     82            uwTimclock = 2*HAL_RCC_GetPCLK1Freq();
+     83             
+     84            /* Compute the prescaler value to have TIM7 counter clock equal to 1MHz */
+     85            uwPrescalerValue = (uint32_t) ((uwTimclock / 1000000) - 1);
+     86            
+     87            /* Initialize TIM7 */
+     88            htim7.Instance = TIM7;
+     89            
+     90            /* Initialize TIMx peripheral as follow:
+     91            + Period = [(TIM7CLK/1000) - 1]. to have a (1/1000) s time base.
+     92            + Prescaler = (uwTimclock/1000000 - 1) to have a 1MHz counter clock.
+     93            + ClockDivision = 0
+     94            + Counter direction = Up
+     95            */
+     96            htim7.Init.Period = (1000000 / 1000) - 1;
+     97            htim7.Init.Prescaler = uwPrescalerValue;
+     98            htim7.Init.ClockDivision = 0;
+     99            htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
+    100            if(HAL_TIM_Base_Init(&htim7) == HAL_OK)
+    101            {
+    102              /* Start the TIM time Base generation in interrupt mode */
+    103              return HAL_TIM_Base_Start_IT(&htim7);
+    104            }
+    105            
+    106            /* Return function status */
+    107            return HAL_ERROR;
+    108          }
+    109          
+    110          /**
+    111            * @brief  Suspend Tick increment.
+    112            * @note   Disable the tick increment by disabling TIM7 update interrupt.
+    113            * @param  None
+    114            * @retval None
+    115            */
+    116          void HAL_SuspendTick(void)
+    117          {
+    118            /* Disable TIM7 update Interrupt */
+    119            __HAL_TIM_DISABLE_IT(&htim7, TIM_IT_UPDATE);                                                  
+    120          }
+    121          
+    122          /**
+    123            * @brief  Resume Tick increment.
+    124            * @note   Enable the tick increment by Enabling TIM7 update interrupt.
+    125            * @param  None
+    126            * @retval None
+    127            */
+    128          void HAL_ResumeTick(void)
+    129          {
+    130            /* Enable TIM7 Update interrupt */
+    131            __HAL_TIM_ENABLE_IT(&htim7, TIM_IT_UPDATE);
+    132          }
+    133          
+    134          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+      40   HAL_InitTick
+        40   -> HAL_NVIC_EnableIRQ
+        40   -> HAL_NVIC_SetPriority
+        40   -> HAL_RCC_GetClockConfig
+        40   -> HAL_RCC_GetPCLK1Freq
+        40   -> HAL_TIM_Base_Init
+        40   -> HAL_TIM_Base_Start_IT
+       0   HAL_ResumeTick
+       0   HAL_SuspendTick
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable2
+       4  ??DataTable2_1
+       4  ??DataTable2_2
+       4  ??DataTable2_3
+     108  HAL_InitTick
+      14  HAL_ResumeTick
+      14  HAL_SuspendTick
+      60  htim7
+
+ 
+  60 bytes in section .bss
+ 152 bytes in section .text
+ 
+ 152 bytes of CODE memory
+  60 bytes of DATA memory
+
+Errors: none
+Warnings: none

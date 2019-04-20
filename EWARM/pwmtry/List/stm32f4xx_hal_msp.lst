@@ -1,0 +1,348 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.2.178/W32 for ARM         19/Apr/2019  15:28:48
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\stm32f4xx_hal_msp.c
+#    Command line =  
+#        -f C:\Users\chris\AppData\Local\Temp\EW5682.tmp
+#        ("L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\stm32f4xx_hal_msp.c"
+#        -D USE_HAL_DRIVER -D STM32F429xx -lcN "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\List"
+#        -o "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\Obj"
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Full.h" -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Inc\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Device/ST/STM32F4xx/Include\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Include\"
+#        -Ohz -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.2\arm\CMSIS\Core\Include\" -I "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 8.2\arm\CMSIS\DSP\Include\")
+#    Locale       =  C
+#    List file    =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\List\stm32f4xx_hal_msp.lst
+#    Object file  =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\Obj\stm32f4xx_hal_msp.o
+#
+###############################################################################
+
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\stm32f4xx_hal_msp.c
+      1          /* USER CODE BEGIN Header */
+      2          /**
+      3            ******************************************************************************
+      4            * File Name          : stm32f4xx_hal_msp.c
+      5            * Description        : This file provides code for the MSP Initialization 
+      6            *                      and de-Initialization codes.
+      7            ******************************************************************************
+      8            ** This notice applies to any and all portions of this file
+      9            * that are not between comment pairs USER CODE BEGIN and
+     10            * USER CODE END. Other portions of this file, whether 
+     11            * inserted by the user or by software development tools
+     12            * are owned by their respective copyright owners.
+     13            *
+     14            * COPYRIGHT(c) 2019 STMicroelectronics
+     15            *
+     16            * Redistribution and use in source and binary forms, with or without modification,
+     17            * are permitted provided that the following conditions are met:
+     18            *   1. Redistributions of source code must retain the above copyright notice,
+     19            *      this list of conditions and the following disclaimer.
+     20            *   2. Redistributions in binary form must reproduce the above copyright notice,
+     21            *      this list of conditions and the following disclaimer in the documentation
+     22            *      and/or other materials provided with the distribution.
+     23            *   3. Neither the name of STMicroelectronics nor the names of its contributors
+     24            *      may be used to endorse or promote products derived from this software
+     25            *      without specific prior written permission.
+     26            *
+     27            * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+     28            * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+     29            * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+     30            * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+     31            * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+     32            * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+     33            * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+     34            * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+     35            * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+     36            * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     37            *
+     38            ******************************************************************************
+     39            */
+     40          /* USER CODE END Header */
+     41          
+     42          /* Includes ------------------------------------------------------------------*/
+     43          #include "main.h"
+     44          /* USER CODE BEGIN Includes */
+     45          
+     46          /* USER CODE END Includes */
+     47          
+     48          /* Private typedef -----------------------------------------------------------*/
+     49          /* USER CODE BEGIN TD */
+     50          
+     51          /* USER CODE END TD */
+     52          
+     53          /* Private define ------------------------------------------------------------*/
+     54          /* USER CODE BEGIN Define */
+     55           
+     56          /* USER CODE END Define */
+     57          
+     58          /* Private macro -------------------------------------------------------------*/
+     59          /* USER CODE BEGIN Macro */
+     60          
+     61          /* USER CODE END Macro */
+     62          
+     63          /* Private variables ---------------------------------------------------------*/
+     64          /* USER CODE BEGIN PV */
+     65          
+     66          /* USER CODE END PV */
+     67          
+     68          /* Private function prototypes -----------------------------------------------*/
+     69          /* USER CODE BEGIN PFP */
+     70          
+     71          /* USER CODE END PFP */
+     72          
+     73          /* External functions --------------------------------------------------------*/
+     74          /* USER CODE BEGIN ExternalFunctions */
+     75          
+     76          /* USER CODE END ExternalFunctions */
+     77          
+     78          /* USER CODE BEGIN 0 */
+     79          
+     80          /* USER CODE END 0 */
+     81                                  
+     82          void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+     83                              /**
+     84            * Initializes the Global MSP.
+     85            */
+     86          void HAL_MspInit(void)
+     87          {
+     88            /* USER CODE BEGIN MspInit 0 */
+     89          
+     90            /* USER CODE END MspInit 0 */
+     91          
+     92            __HAL_RCC_SYSCFG_CLK_ENABLE();
+     93            __HAL_RCC_PWR_CLK_ENABLE();
+     94          
+     95            HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_0);
+     96          
+     97            /* System interrupt init*/
+     98          
+     99            /* USER CODE BEGIN MspInit 1 */
+    100          
+    101            /* USER CODE END MspInit 1 */
+    102          }
+    103          
+    104          /**
+    105          * @brief TIM_IC MSP Initialization
+    106          * This function configures the hardware resources used in this example
+    107          * @param htim_ic: TIM_IC handle pointer
+    108          * @retval None
+    109          */
+    110          void HAL_TIM_IC_MspInit(TIM_HandleTypeDef* htim_ic)
+    111          {
+    112          
+    113            GPIO_InitTypeDef GPIO_InitStruct = {0};
+    114            if(htim_ic->Instance==TIM2)
+    115            {
+    116            /* USER CODE BEGIN TIM2_MspInit 0 */
+    117          
+    118            /* USER CODE END TIM2_MspInit 0 */
+    119              /* Peripheral clock enable */
+    120              __HAL_RCC_TIM2_CLK_ENABLE();
+    121            
+    122              __HAL_RCC_GPIOA_CLK_ENABLE();
+    123              /**TIM2 GPIO Configuration    
+    124              PA0/WKUP     ------> TIM2_CH1 
+    125              */
+    126              GPIO_InitStruct.Pin = inputSIG_Pin;
+    127              GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    128              GPIO_InitStruct.Pull = GPIO_NOPULL;
+    129              GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    130              GPIO_InitStruct.Alternate = GPIO_AF1_TIM2;
+    131              HAL_GPIO_Init(inputSIG_GPIO_Port, &GPIO_InitStruct);
+    132          
+    133              /* TIM2 interrupt Init */
+    134              HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);
+    135              HAL_NVIC_EnableIRQ(TIM2_IRQn);
+    136            /* USER CODE BEGIN TIM2_MspInit 1 */
+    137          
+    138            /* USER CODE END TIM2_MspInit 1 */
+    139            }
+    140          
+    141          }
+    142          
+    143          /**
+    144          * @brief TIM_PWM MSP Initialization
+    145          * This function configures the hardware resources used in this example
+    146          * @param htim_pwm: TIM_PWM handle pointer
+    147          * @retval None
+    148          */
+    149          void HAL_TIM_PWM_MspInit(TIM_HandleTypeDef* htim_pwm)
+    150          {
+    151          
+    152            if(htim_pwm->Instance==TIM4)
+    153            {
+    154            /* USER CODE BEGIN TIM4_MspInit 0 */
+    155          
+    156            /* USER CODE END TIM4_MspInit 0 */
+    157              /* Peripheral clock enable */
+    158              __HAL_RCC_TIM4_CLK_ENABLE();
+    159            /* USER CODE BEGIN TIM4_MspInit 1 */
+    160          
+    161            /* USER CODE END TIM4_MspInit 1 */
+    162            }
+    163          
+    164          }
+    165          
+    166          void HAL_TIM_MspPostInit(TIM_HandleTypeDef* htim)
+    167          {
+    168          
+    169            GPIO_InitTypeDef GPIO_InitStruct = {0};
+    170            if(htim->Instance==TIM4)
+    171            {
+    172            /* USER CODE BEGIN TIM4_MspPostInit 0 */
+    173          
+    174            /* USER CODE END TIM4_MspPostInit 0 */
+    175            
+    176              __HAL_RCC_GPIOD_CLK_ENABLE();
+    177              /**TIM4 GPIO Configuration    
+    178              PD12     ------> TIM4_CH1 
+    179              */
+    180              GPIO_InitStruct.Pin = pwmOUT_Pin;
+    181              GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    182              GPIO_InitStruct.Pull = GPIO_NOPULL;
+    183              GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    184              GPIO_InitStruct.Alternate = GPIO_AF2_TIM4;
+    185              HAL_GPIO_Init(pwmOUT_GPIO_Port, &GPIO_InitStruct);
+    186          
+    187            /* USER CODE BEGIN TIM4_MspPostInit 1 */
+    188          
+    189            /* USER CODE END TIM4_MspPostInit 1 */
+    190            }
+    191          
+    192          }
+    193          /**
+    194          * @brief TIM_IC MSP De-Initialization
+    195          * This function freeze the hardware resources used in this example
+    196          * @param htim_ic: TIM_IC handle pointer
+    197          * @retval None
+    198          */
+    199          
+    200          void HAL_TIM_IC_MspDeInit(TIM_HandleTypeDef* htim_ic)
+    201          {
+    202          
+    203            if(htim_ic->Instance==TIM2)
+    204            {
+    205            /* USER CODE BEGIN TIM2_MspDeInit 0 */
+    206          
+    207            /* USER CODE END TIM2_MspDeInit 0 */
+    208              /* Peripheral clock disable */
+    209              __HAL_RCC_TIM2_CLK_DISABLE();
+    210            
+    211              /**TIM2 GPIO Configuration    
+    212              PA0/WKUP     ------> TIM2_CH1 
+    213              */
+    214              HAL_GPIO_DeInit(inputSIG_GPIO_Port, inputSIG_Pin);
+    215          
+    216              /* TIM2 interrupt DeInit */
+    217              HAL_NVIC_DisableIRQ(TIM2_IRQn);
+    218            /* USER CODE BEGIN TIM2_MspDeInit 1 */
+    219          
+    220            /* USER CODE END TIM2_MspDeInit 1 */
+    221            }
+    222          
+    223          }
+    224          
+    225          /**
+    226          * @brief TIM_PWM MSP De-Initialization
+    227          * This function freeze the hardware resources used in this example
+    228          * @param htim_pwm: TIM_PWM handle pointer
+    229          * @retval None
+    230          */
+    231          
+    232          void HAL_TIM_PWM_MspDeInit(TIM_HandleTypeDef* htim_pwm)
+    233          {
+    234          
+    235            if(htim_pwm->Instance==TIM4)
+    236            {
+    237            /* USER CODE BEGIN TIM4_MspDeInit 0 */
+    238          
+    239            /* USER CODE END TIM4_MspDeInit 0 */
+    240              /* Peripheral clock disable */
+    241              __HAL_RCC_TIM4_CLK_DISABLE();
+    242            /* USER CODE BEGIN TIM4_MspDeInit 1 */
+    243          
+    244            /* USER CODE END TIM4_MspDeInit 1 */
+    245            }
+    246          
+    247          }
+    248          
+    249          /* USER CODE BEGIN 1 */
+    250          
+    251          /* USER CODE END 1 */
+    252          
+    253          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       8   HAL_MspInit
+         0   -> HAL_NVIC_SetPriorityGrouping
+       8   HAL_TIM_IC_MspDeInit
+         8   -> HAL_GPIO_DeInit
+         0   -> HAL_NVIC_DisableIRQ
+      32   HAL_TIM_IC_MspInit
+        32   -> HAL_GPIO_Init
+        32   -> HAL_NVIC_EnableIRQ
+        32   -> HAL_NVIC_SetPriority
+        32   -> __aeabi_memclr4
+      40   HAL_TIM_MspPostInit
+        40   -> HAL_GPIO_Init
+        40   -> __aeabi_memclr4
+       0   HAL_TIM_PWM_MspDeInit
+       4   HAL_TIM_PWM_MspInit
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable7
+       4  ??DataTable7_1
+       4  ??DataTable7_2
+       4  ??DataTable7_3
+       4  ??DataTable7_4
+      10  ?Subroutine0
+      12  ?Subroutine1
+      20  ?_0
+      20  ?_1
+      56  HAL_MspInit
+      40  HAL_TIM_IC_MspDeInit
+     102  HAL_TIM_IC_MspInit
+      66  HAL_TIM_MspPostInit
+      20  HAL_TIM_PWM_MspDeInit
+      38  HAL_TIM_PWM_MspInit
+
+ 
+  40 bytes in section .rodata
+ 364 bytes in section .text
+ 
+ 364 bytes of CODE  memory
+  40 bytes of CONST memory
+
+Errors: none
+Warnings: none

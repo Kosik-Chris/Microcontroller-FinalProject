@@ -67,7 +67,9 @@ TIM_HandleTypeDef htim4;
 
 /* USER CODE BEGIN PV */
 double period, freq,fall,rise;
-int s=1;
+int s=1,j;
+int reset = 0; //0 for no 1 for yes
+extern int edgeCount;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -80,11 +82,180 @@ static void startProcess(void);
 static void doProcess(void);
 static void endProcess(void);
 static void doPWM(void);
-/* USER CODE END PFP */
+static void forwardMotor(int);
+static void backwardMotor(int);
+static void stopMotor(void);
+//static void init(void);
+//static void command(int);
+//static void write(int);
+void command (int i){
+   GPIOD->ODR=i; // send to PD0-7
+   HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_RESET);//RS PF0
+   HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W PF1
+   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_SET);//E PF2
+   HAL_Delay(1);
+   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+}
+void write ( int i){
+   GPIOD->ODR=i; // send to PD0-7
+   HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_SET);//RS PF0
+   HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W PF1
+   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_SET);//E PF2
+   HAL_Delay(1);
+    HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+}
+void init(){
+   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+   HAL_Delay(20);
+   command(0x30);
+   HAL_Delay(6);
+   command(0x30);
+   HAL_Delay(10);
+   command(0x30);
+   HAL_Delay(1);
+   command(0x38);
+   command(0x00);
+   command(0x0F);
+   command(0x06);
+}
+void displayTemp(int temp){
+       if(temp==0){
+       //command(0x00);
+       write(0x30); // display 0
+       }
+       if(temp==1){
+       //command(0x00);
+       write(0x31); // display 1
+       }
+       if(temp==2){
+       //command(0x00);
+       write(0x32); // display 2
+       }
+      if(temp==3){
+       //command(0x00);
+       write(0x33); // display 3
+       }
+       if(temp==4){
+       //command(0x00);
+       write(0x34); // display 4
+       }
+      if(temp==5){
+       //command(0x00);
+       write(0x35); // display 5
+       }
+       if(temp==6){
+       //command(0x00);
+       write(0x36); // display 6
+       }
+       if(temp==7){
+      // command(0x00);
+       write(0x37); // display 7
+       }
+       if(temp==8){
+       //command(0x00);
+       write(0x38); // display 8
+       }
+       if(temp==9){
+       //command(0x00);
+       write(0x39); // display 9
+       }    
 
+}
+void splitNum(int temp){
+  int rem=0,val=0;
+  if(temp<=9){
+    displayTemp(temp);
+    }
+    if(temp<=99){
+    val=temp/1000;
+    rem=temp%1000;
+    displayTemp(val);
+    displayTemp(rem);
+    }
+
+}
+void LCDstart(){
+
+  // displays Start Signal Triggered
+      command(0x00); // start from first every time
+//      write(0x25); // display * 
+//      write(0x25); // display * 
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+      write(0x53); // display S
+      write(0x74); // display t
+      write(0x61); // display a
+      write(0x72); // display r
+      write(0x74); // display 
+      write(0x11); // display space
+      write(0x64); // display d
+      write(0x11); // display space
+     // j=100;
+      //splitNum(j);
+      
+//      write(0x02); // display space
+//      write(0x53); // display S
+//      write(0x69); // display i
+//      write(0x67); // display g
+//      write(0x6D); // display n
+//      write(0x61); // display a
+//      write(0x6C); // display l
+//      write(0x02); // display space
+//      write(0x54); // display T
+//      write(0x72); // display r
+//      write(0x69); // display i
+//      write(0x67); // display g
+//      write(0x67); // display g
+//      write(0x65); // display e
+//      write(0x72); // display r
+//      write(0x65); // display e
+//      write(0x64); // display d
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x25); // display * 
+//      write(0x25); // display * 
+
+}
+void LCDdoProcess(){
+  // displays Do process
+      command(0x00); // start from first every time
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x25); // display * 
+//      write(0x25); // display * 
+      write(0x44); // display D
+      write(0x6F); // display o
+      write(0x11); // display space
+//      write(0x50); // display P
+//      write(0x72); // display r
+//      write(0x6F); // display o
+//      write(0x72); // display c
+//      write(0x65); // display e
+//      write(0x73); // display s
+//      write(0x73); // display s
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x25); // display * 
+//      write(0x25); // display *
+
+}  
+void LCDDtop(){
+// stop
+      command(0x00); // start from first every time
+      write(0x73); // display s
+      write(0x54); // display T
+      write(0x6F); // display o
+      write(0x50); // display P
+
+}
+//static void init(void);
+/* USER CODE END PFP */
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
 /* USER CODE END 0 */
 
 /**
@@ -110,20 +281,6 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-//  SysTick->CTRL=0x5;
-//  SysTick->LOAD=36000;
-//  SysTick->VAL=0;
-//  SysTick->CTRL=0x7;
-//  
-//   SysTick->CTRL=0x5;
-//   SysTick->LOAD=60000;
-//   SysTick->VAL=0;
-//   SysTick->CTRL=0x7; 
-//   
-//   SysTick->CTRL=0x0;
-//   SysTick->LOAD=0;
-//   SysTick->VAL=0;
-//   SysTick->CTRL=0x0; 
    
   /* USER CODE END SysInit */
 
@@ -132,7 +289,10 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-  
+  init();
+ // LCDdoProcess();
+//  command(0x00);
+//  write(0x30);
   HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);
   HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
   //HAL_TIM_Base_Start_IT(&htim2);
@@ -142,40 +302,37 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-
-    
-    
-    //doPWM();
+     //LCDDtop();
+ //command(0x00);
+  write(0x33);
         //start signal has been triggered.
     if(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_2) == 1){
       printf("**=== Start Signal Triggered ===**\n");
-//      printf("Beginning process\n");
-
-      startProcess();
-      
+      printf("Beginning process\n");
+      startProcess();     
       doProcess();
        if(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_3) == 1){
         TIM4->CCR1=0;
         }
-      endProcess();
-
-//      for(int i=0; i<1000000;i++){
-//          printf("period= %f\n",period);
-//          printf("freq= %f\n..............\n",freq);
-//
-//      doPWM();
+     endProcess();
+    }
+    if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_14) == 0){
+      //if triggered then go into reset mode
+      while(HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_12) == 1){
+        printf("**Reseting Conveyor Belt**\n");
+        backwardMotor(0);
+      }
+    }
+//    else if(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_2) == 0 && HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_14) == 0){
+//      scanf("%d",&reset); //scan for reset terminal input
+//      if(reset == 1){
+//      printf("***RESET INITIALIZED***\n");
+//      printf("***Moving motor backwards\n***\n");
+//      if(HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_11) == 1){
+//      backwardMotor(0);
 //      }
-    }
-    else if(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_2) == 0){
-      //printf("Signal is low!\n");
-    }
-//    if((freq>=5.45)&&(freq<5.6)){
-//    TIM4->CCR1=600;
+//      }
 //    }
-//    if((freq>=5.45)&&(freq<5.6)){
-//    TIM4->CCR1=600;
-//    }
-    HAL_Delay(100);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -338,35 +495,88 @@ static void MX_GPIO_Init(void)
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOF_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
+  __HAL_RCC_GPIOG_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOC, GREENLED_Pin|YELLOWLED_Pin|REDLED_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOF, RS_Pin|RW_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pins : PE2 PE3 */
-  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3;
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 
+                          |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOG, audioOUT_Pin|forMOTOR_Pin|revMOTOR_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : START_Pin STOP_Pin */
+  GPIO_InitStruct.Pin = START_Pin|STOP_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PC13 PC14 PC15 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15;
+  /*Configure GPIO pins : GREENLED_Pin YELLOWLED_Pin REDLED_Pin */
+  GPIO_InitStruct.Pin = GREENLED_Pin|YELLOWLED_Pin|REDLED_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : PD0 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  /*Configure GPIO pins : RS_Pin RW_Pin */
+  GPIO_InitStruct.Pin = RS_Pin|RW_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : En_Pin */
+  GPIO_InitStruct.Pin = En_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(En_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : pulseCount_Pin */
+  GPIO_InitStruct.Pin = pulseCount_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(pulseCount_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PC11 PC12 */
+  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PD0 PD1 PD2 PD3 
+                           PD4 PD5 PD6 PD7 */
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 
+                          |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : audioOUT_Pin forMOTOR_Pin revMOTOR_Pin */
+  GPIO_InitStruct.Pin = audioOUT_Pin|forMOTOR_Pin|revMOTOR_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : startIR_Pin stopIR_Pin directionSELECT_Pin */
+  GPIO_InitStruct.Pin = startIR_Pin|stopIR_Pin|directionSELECT_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+
+  /* EXTI interrupt init*/
+  HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
 
 }
 
@@ -376,9 +586,15 @@ static void MX_GPIO_Init(void)
  * & output a frequency of 5KHz on the buzzer.
 **/
 static void startProcess(){
+  printf("**Start Process BEGIN**\n");
+  
+  command(0x00);
+  write(0x30);
+  
+  LCDstart();
   //sound frequency of 5KHz turn on speaker
   SysTick->CTRL=0x5;
-  SysTick->LOAD=36000;
+  SysTick->LOAD=18000;
   SysTick->VAL=0;
   SysTick->CTRL=0x7;
   //Blink LED 5 times frequency of 1Hz
@@ -393,6 +609,10 @@ static void startProcess(){
    SysTick->LOAD=0;
    SysTick->VAL=0;
    SysTick->CTRL=0x0; 
+   printf("**Start Process END**\n");
+   
+  command(0x00);
+  write(0x30);
 }
 
 /**
@@ -404,11 +624,31 @@ static void startProcess(){
 static void doProcess(){
   printf("**Do Process**\n");
   //***TURN ON PERIPHERALS***
-  
+  command(0x00);
+  write(0x30);
+  LCDdoProcess();
   //Turn process LED (yellow) on
   HAL_GPIO_WritePin(GPIOC,GPIO_PIN_14,GPIO_PIN_SET); //yellow LED ON
-  while(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_3) == 0){
-    doPWM();
+//  while(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_3) == 0){
+//    doPWM();
+//  }
+   while( HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_12) == 1 &&  HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_3) == 0){
+     if(edgeCount == 20){
+       stopMotor();
+       HAL_Delay(2000);
+       printf("Motor stopped\n");
+       edgeCount++;
+     }
+     if(edgeCount == 60){
+       stopMotor();
+       HAL_Delay(2000);
+       printf("Motor stopped\n");
+       edgeCount++;  
+     }
+      else{
+       doPWM();
+     }
+      
   }
   //HAL_Delay(500); //temp delay to be filled by application logic
   HAL_GPIO_WritePin(GPIOC,GPIO_PIN_14,GPIO_PIN_RESET); //yellow LED OFF
@@ -420,14 +660,17 @@ static void doProcess(){
   printf("Sampling stopped\n");
   //TODO: for now sample ends at stop and consider the belt stop here too.
   //Stop motor
-  
+  stopMotor();
   printf("Motor stopped\n");
+  printf("Do Process END\n");
+  command(0x00);
+  write(0x30);
 }
 
 static void endProcess(){
   printf("**End Process Start**\n");
    SysTick->CTRL=0x5;
-   SysTick->LOAD=60000;
+   SysTick->LOAD=30000;
    SysTick->VAL=0;
    SysTick->CTRL=0x7; 
   
@@ -443,9 +686,33 @@ static void endProcess(){
    SysTick->LOAD=0;
    SysTick->VAL=0;
    SysTick->CTRL=0x0; 
+   printf("**End Process END**\n");
 }
 static void doPWM(){
-
+  if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_14) == 1){
+//    if(edgeCount > 40 && edgeCount <100){
+//      stopMotor();
+//    }
+//    if(edgeCount > 100 && edgeCount < 160){
+//      stopMotor();
+//    }
+    forwardMotor(0);
+  }
+ if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_14) == 0){
+//    if(edgeCount > 40 && edgeCount <100){
+//      stopMotor();
+//    }
+//    if(edgeCount > 100 && edgeCount < 160){
+//      stopMotor();
+//    }
+    backwardMotor(0);
+  }
+//  if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_12) == 1){
+//    printf("Start Sensor HIGH!\n");
+//  }
+// if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_12) == 0){
+//    printf("Start Sensor LOW!\n");
+//  }
     if((freq>=4.35)&&(freq<4.5)){
     TIM4->CCR1=2850;
     }
@@ -504,6 +771,228 @@ static void doPWM(){
     TIM4->CCR1=0;
     }
 }
+
+static void forwardMotor(int speed){
+  //printf("Motor moving forward\n");
+  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_RESET);
+}
+
+static void backwardMotor(int speed){
+  //printf("Motor moving backward\n");
+  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_RESET);
+}
+
+static void stopMotor(){
+  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_RESET);
+}
+
+//void command (int i){
+//   GPIOD->ODR=i; // send to PD0-7
+//   HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_RESET);//RS PF0
+//   HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W PF1
+//   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_SET);//E PF2
+//   HAL_Delay(1);
+//   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+//}
+//void write ( int i){
+//   GPIOD->ODR=i; // send to PD0-7
+//   HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_SET);//RS PF0
+//   HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W PF1
+//   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_SET);//E PF2
+//   HAL_Delay(1);
+//    HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+//}
+//void init(){
+//   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+//   HAL_Delay(100);
+//   command(0x38);
+//   HAL_Delay(5);
+//   command(0x38);
+//   HAL_Delay(1);
+//   command(0x0C);
+//   HAL_Delay(1);
+//   command(0x01);
+//   HAL_Delay(15);
+//   //command(0x00);
+//   //command(0x0F);
+//   command(0x06);
+//   HAL_Delay(1);
+//}
+//void functionSet(){
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0,GPIO_PIN_RESET);// PD0/DB0
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1,GPIO_PIN_RESET);//PD1/DB1
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2,GPIO_PIN_SET);//PD2/DB2
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3,GPIO_PIN_SET);//PD3/DB3
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4,GPIO_PIN_SET);//PD4/DB4
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_5,GPIO_PIN_SET);//PD5/DB5
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6,GPIO_PIN_RESET);//PD6/DB6
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7,GPIO_PIN_RESET);//PD7/DB7
+//   HAL_GPIO_WritePin(GPIOC, RW_Pin,GPIO_PIN_RESET);//R/W
+//   HAL_GPIO_WritePin(GPIOC, RS_Pin,GPIO_PIN_RESET);//RS
+//   HAL_Delay(1);
+//}
+//
+//void DisplyOnOff(){
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0,GPIO_PIN_SET);// PD0/DB0
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1,GPIO_PIN_SET);//PD1/DB1
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2,GPIO_PIN_SET);//PD2/DB2
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3,GPIO_PIN_SET);//PD3/DB3
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4,GPIO_PIN_RESET);//PD4/DB4
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_5,GPIO_PIN_RESET);//PD5/DB5
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6,GPIO_PIN_RESET);//PD6/DB6
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7,GPIO_PIN_RESET);//PD7/DB7
+//   HAL_GPIO_WritePin(GPIOC, RW_Pin,GPIO_PIN_RESET);//R/W
+//   HAL_GPIO_WritePin(GPIOC, RS_Pin,GPIO_PIN_RESET);//RS
+//   HAL_Delay(1);
+//}
+//void DisplyClear(){
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0,GPIO_PIN_SET);// PD0/DB0
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1,GPIO_PIN_RESET);//PD1/DB1
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2,GPIO_PIN_RESET);//PD2/DB2
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3,GPIO_PIN_RESET);//PD3/DB3
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4,GPIO_PIN_RESET);//PD4/DB4
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_5,GPIO_PIN_RESET);//PD5/DB5
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6,GPIO_PIN_RESET);//PD6/DB6
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7,GPIO_PIN_RESET);//PD7/DB7
+//   HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W
+//   HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_RESET);//RS
+//   HAL_Delay(2);
+//}
+//
+//void EntryMode(){
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0,GPIO_PIN_RESET);// PD0/DB0
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1,GPIO_PIN_SET);//PD1/DB1
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2,GPIO_PIN_SET);//PD2/DB2
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3,GPIO_PIN_RESET);//PD3/DB3
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4,GPIO_PIN_RESET);//PD4/DB4
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_5,GPIO_PIN_RESET);//PD5/DB5
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6,GPIO_PIN_RESET);//PD6/DB6
+//   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7,GPIO_PIN_RESET);//PD7/DB7
+//   HAL_GPIO_WritePin(GPIOG, RW_Pin,GPIO_PIN_RESET);//R/W
+//   HAL_GPIO_WritePin(GPIOG, RS_Pin,GPIO_PIN_RESET);//RS
+//   HAL_Delay(1);
+//}
+//void LCDstart(){
+//
+//  // displays Start Signal Triggered
+//      command(0x00); // start from first every time
+//      write(0x25); // display * 
+//      write(0x25); // display * 
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x53); // display S
+//      write(0x74); // display t
+//      write(0x61); // display a
+//      write(0x72); // display r
+//      write(0x74); // display 
+//      write(0x02); // display space
+//      write(0x53); // display S
+//      write(0x69); // display i
+//      write(0x67); // display g
+//      write(0x6D); // display n
+//      write(0x61); // display a
+//      write(0x6C); // display l
+//      write(0x02); // display space
+//      write(0x54); // display T
+//      write(0x72); // display r
+//      write(0x69); // display i
+//      write(0x67); // display g
+//      write(0x67); // display g
+//      write(0x65); // display e
+//      write(0x72); // display r
+//      write(0x65); // display e
+//      write(0x64); // display d
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x25); // display * 
+//      write(0x25); // display * 
+//
+//}
+//void LCDdoProcess(){
+//  // displays Do process
+//      command(0x00); // start from first every time
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x25); // display * 
+//      write(0x25); // display * 
+//      write(0x44); // display D
+//      write(0x6F); // display o
+//      write(0x02); // display space
+//      write(0x50); // display P
+//      write(0x72); // display r
+//      write(0x6F); // display o
+//      write(0x72); // display c
+//      write(0x65); // display e
+//      write(0x73); // display s
+//      write(0x73); // display s
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x3D); // display =
+//      write(0x25); // display * 
+//      write(0x25); // display *
+//
+//}   
+//void displayTemp(int temp){
+//       if(temp==0){
+//       //command(0x00);
+//       write(0x30); // display 0
+//       }
+//       if(temp==1){
+//       //command(0x00);
+//       write(0x31); // display 1
+//       }
+//       if(temp==2){
+//       //command(0x00);
+//       write(0x32); // display 2
+//       }
+//      if(temp==3){
+//       //command(0x00);
+//       write(0x33); // display 3
+//       }
+//       if(temp==4){
+//       //command(0x00);
+//       write(0x34); // display 4
+//       }
+//      if(temp==5){
+//       //command(0x00);
+//       write(0x35); // display 5
+//       }
+//       if(temp==6){
+//       //command(0x00);
+//       write(0x36); // display 6
+//       }
+//       if(temp==7){
+//      // command(0x00);
+//       write(0x37); // display 7
+//       }
+//       if(temp==8){
+//       //command(0x00);
+//       write(0x38); // display 8
+//       }
+//       if(temp==9){
+//       //command(0x00);
+//       write(0x39); // display 9
+//       }    
+//
+//}
+//void splitNum(int temp){
+//  int rem=0,val=0;
+//  if(temp<=9){
+//    displayTemp(temp);
+//    }
+//    if(temp<=99){
+//    val=temp/10;
+//    rem=temp%10;
+//    displayTemp(val);
+//    displayTemp(rem);
+//    }
+//}
                   
 /* USER CODE END 4 */
 

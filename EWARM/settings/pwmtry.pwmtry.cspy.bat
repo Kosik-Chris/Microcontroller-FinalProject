@@ -25,7 +25,7 @@ if not "%~1" == "" goto debugFile
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\pwmtry\EWARM\settings\pwmtry.pwmtry.general.xcl" --backend -f "L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\pwmtry\EWARM\settings\pwmtry.pwmtry.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\settings\pwmtry.pwmtry.general.xcl" --backend -f "L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\settings\pwmtry.pwmtry.driver.xcl" 
 
 @echo off 
 goto end 
@@ -34,7 +34,7 @@ goto end
 
 @echo on 
 
-"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\pwmtry\EWARM\settings\pwmtry.pwmtry.general.xcl" "--debug_file=%~1" --backend -f "L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\pwmtry\EWARM\settings\pwmtry.pwmtry.driver.xcl" 
+"C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\common\bin\cspybat" -f "L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\settings\pwmtry.pwmtry.general.xcl" "--debug_file=%~1" --backend -f "L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\settings\pwmtry.pwmtry.driver.xcl" 
 
 @echo off 
 :end

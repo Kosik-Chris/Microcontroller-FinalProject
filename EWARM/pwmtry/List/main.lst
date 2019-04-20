@@ -1,0 +1,1321 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.2.178/W32 for ARM         19/Apr/2019  15:40:37
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\main.c
+#    Command line =  
+#        -f C:\Users\chris\AppData\Local\Temp\EW26ED.tmp
+#        ("L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\main.c" -D
+#        USE_HAL_DRIVER -D STM32F429xx -lcN "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\List"
+#        -o "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\Obj"
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Full.h" -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Inc\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Device/ST/STM32F4xx/Include\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Include\"
+#        -Ohz -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.2\arm\CMSIS\Core\Include\" -I "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 8.2\arm\CMSIS\DSP\Include\")
+#    Locale       =  C
+#    List file    =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\List\main.lst
+#    Object file  =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\Obj\main.o
+#
+###############################################################################
+
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\main.c
+      1          /* USER CODE BEGIN Header */
+      2          /**
+      3            ******************************************************************************
+      4            * @file           : main.c
+      5            * @brief          : Main program body
+      6            ******************************************************************************
+      7            ** This notice applies to any and all portions of this file
+      8            * that are not between comment pairs USER CODE BEGIN and
+      9            * USER CODE END. Other portions of this file, whether 
+     10            * inserted by the user or by software development tools
+     11            * are owned by their respective copyright owners.
+     12            *
+     13            * COPYRIGHT(c) 2019 STMicroelectronics
+     14            *
+     15            * Redistribution and use in source and binary forms, with or without modification,
+     16            * are permitted provided that the following conditions are met:
+     17            *   1. Redistributions of source code must retain the above copyright notice,
+     18            *      this list of conditions and the following disclaimer.
+     19            *   2. Redistributions in binary form must reproduce the above copyright notice,
+     20            *      this list of conditions and the following disclaimer in the documentation
+     21            *      and/or other materials provided with the distribution.
+     22            *   3. Neither the name of STMicroelectronics nor the names of its contributors
+     23            *      may be used to endorse or promote products derived from this software
+     24            *      without specific prior written permission.
+     25            *
+     26            * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+     27            * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+     28            * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+     29            * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+     30            * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+     31            * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+     32            * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+     33            * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+     34            * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+     35            * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     36            *
+     37            ******************************************************************************
+     38            */
+     39          /* USER CODE END Header */
+     40          
+     41          /* Includes ------------------------------------------------------------------*/
+     42          #include "main.h"
+     43          
+     44          /* Private includes ----------------------------------------------------------*/
+     45          /* USER CODE BEGIN Includes */
+     46          
+     47          /* USER CODE END Includes */
+     48          
+     49          /* Private typedef -----------------------------------------------------------*/
+     50          /* USER CODE BEGIN PTD */
+     51          
+     52          /* USER CODE END PTD */
+     53          
+     54          /* Private define ------------------------------------------------------------*/
+     55          /* USER CODE BEGIN PD */
+     56          
+     57          /* USER CODE END PD */
+     58          
+     59          /* Private macro -------------------------------------------------------------*/
+     60          /* USER CODE BEGIN PM */
+     61          
+     62          /* USER CODE END PM */
+     63          
+     64          /* Private variables ---------------------------------------------------------*/
+     65          TIM_HandleTypeDef htim2;
+     66          TIM_HandleTypeDef htim4;
+     67          
+     68          /* USER CODE BEGIN PV */
+     69          double period, freq,fall,rise;
+     70          int s=1,j;
+     71          int reset = 0; //0 for no 1 for yes
+     72          extern int edgeCount;
+     73          /* USER CODE END PV */
+     74          
+     75          /* Private function prototypes -----------------------------------------------*/
+     76          void SystemClock_Config(void);
+     77          static void MX_GPIO_Init(void);
+     78          static void MX_TIM2_Init(void);
+     79          static void MX_TIM4_Init(void);
+     80          /* USER CODE BEGIN PFP */
+     81          static void startProcess(void);
+     82          static void doProcess(void);
+     83          static void endProcess(void);
+     84          static void doPWM(void);
+     85          static void forwardMotor(int);
+     86          static void backwardMotor(int);
+     87          static void stopMotor(void);
+     88          //static void init(void);
+     89          //static void command(int);
+     90          //static void write(int);
+     91          void command (int i){
+     92             GPIOD->ODR=i; // send to PD0-7
+     93             HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_RESET);//RS PF0
+     94             HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W PF1
+     95             HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_SET);//E PF2
+     96             HAL_Delay(1);
+     97             HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+     98          }
+     99          void write ( int i){
+    100             GPIOD->ODR=i; // send to PD0-7
+    101             HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_SET);//RS PF0
+    102             HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W PF1
+    103             HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_SET);//E PF2
+    104             HAL_Delay(1);
+    105              HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+    106          }
+    107          void init(){
+    108             HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+    109             HAL_Delay(20);
+    110             command(0x30);
+    111             HAL_Delay(6);
+    112             command(0x30);
+    113             HAL_Delay(10);
+    114             command(0x30);
+    115             HAL_Delay(1);
+    116             command(0x38);
+    117             command(0x00);
+    118             command(0x0F);
+    119             command(0x06);
+    120          }
+    121          void displayTemp(int temp){
+    122                 if(temp==0){
+    123                 //command(0x00);
+    124                 write(0x30); // display 0
+    125                 }
+    126                 if(temp==1){
+    127                 //command(0x00);
+    128                 write(0x31); // display 1
+    129                 }
+    130                 if(temp==2){
+    131                 //command(0x00);
+    132                 write(0x32); // display 2
+    133                 }
+    134                if(temp==3){
+    135                 //command(0x00);
+    136                 write(0x33); // display 3
+    137                 }
+    138                 if(temp==4){
+    139                 //command(0x00);
+    140                 write(0x34); // display 4
+    141                 }
+    142                if(temp==5){
+    143                 //command(0x00);
+    144                 write(0x35); // display 5
+    145                 }
+    146                 if(temp==6){
+    147                 //command(0x00);
+    148                 write(0x36); // display 6
+    149                 }
+    150                 if(temp==7){
+    151                // command(0x00);
+    152                 write(0x37); // display 7
+    153                 }
+    154                 if(temp==8){
+    155                 //command(0x00);
+    156                 write(0x38); // display 8
+    157                 }
+    158                 if(temp==9){
+    159                 //command(0x00);
+    160                 write(0x39); // display 9
+    161                 }    
+    162          
+    163          }
+    164          void splitNum(int temp){
+    165            int rem=0,val=0;
+    166            if(temp<=9){
+    167              displayTemp(temp);
+    168              }
+    169              if(temp<=99){
+    170              val=temp/1000;
+    171              rem=temp%1000;
+    172              displayTemp(val);
+    173              displayTemp(rem);
+    174              }
+    175          
+    176          }
+    177          void LCDstart(){
+    178          
+    179            // displays Start Signal Triggered
+    180                command(0x00); // start from first every time
+    181          //      write(0x25); // display * 
+    182          //      write(0x25); // display * 
+    183          //      write(0x3D); // display =
+    184          //      write(0x3D); // display =
+    185          //      write(0x3D); // display =
+    186                write(0x53); // display S
+    187                write(0x74); // display t
+    188                write(0x61); // display a
+    189                write(0x72); // display r
+    190                write(0x74); // display 
+    191                write(0x11); // display space
+    192                write(0x64); // display d
+    193                write(0x11); // display space
+    194               // j=100;
+    195                //splitNum(j);
+    196                
+    197          //      write(0x02); // display space
+    198          //      write(0x53); // display S
+    199          //      write(0x69); // display i
+    200          //      write(0x67); // display g
+    201          //      write(0x6D); // display n
+    202          //      write(0x61); // display a
+    203          //      write(0x6C); // display l
+    204          //      write(0x02); // display space
+    205          //      write(0x54); // display T
+    206          //      write(0x72); // display r
+    207          //      write(0x69); // display i
+    208          //      write(0x67); // display g
+    209          //      write(0x67); // display g
+    210          //      write(0x65); // display e
+    211          //      write(0x72); // display r
+    212          //      write(0x65); // display e
+    213          //      write(0x64); // display d
+    214          //      write(0x3D); // display =
+    215          //      write(0x3D); // display =
+    216          //      write(0x3D); // display =
+    217          //      write(0x25); // display * 
+    218          //      write(0x25); // display * 
+    219          
+    220          }
+    221          void LCDdoProcess(){
+    222            // displays Do process
+    223                command(0x00); // start from first every time
+    224          //      write(0x3D); // display =
+    225          //      write(0x3D); // display =
+    226          //      write(0x3D); // display =
+    227          //      write(0x25); // display * 
+    228          //      write(0x25); // display * 
+    229                write(0x44); // display D
+    230                write(0x6F); // display o
+    231                write(0x11); // display space
+    232          //      write(0x50); // display P
+    233          //      write(0x72); // display r
+    234          //      write(0x6F); // display o
+    235          //      write(0x72); // display c
+    236          //      write(0x65); // display e
+    237          //      write(0x73); // display s
+    238          //      write(0x73); // display s
+    239          //      write(0x3D); // display =
+    240          //      write(0x3D); // display =
+    241          //      write(0x3D); // display =
+    242          //      write(0x25); // display * 
+    243          //      write(0x25); // display *
+    244          
+    245          }  
+    246          void LCDDtop(){
+    247          // stop
+    248                command(0x00); // start from first every time
+    249                write(0x73); // display s
+    250                write(0x54); // display T
+    251                write(0x6F); // display o
+    252                write(0x50); // display P
+    253          
+    254          }
+    255          //static void init(void);
+    256          /* USER CODE END PFP */
+    257          /* Private user code ---------------------------------------------------------*/
+    258          /* USER CODE BEGIN 0 */
+    259          /* USER CODE END 0 */
+    260          
+    261          /**
+    262            * @brief  The application entry point.
+    263            * @retval int
+    264            */
+    265          int main(void)
+    266          {
+    267            /* USER CODE BEGIN 1 */
+    268          
+    269            /* USER CODE END 1 */
+    270          
+    271            /* MCU Configuration--------------------------------------------------------*/
+    272          
+    273            /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+    274            HAL_Init();
+    275          
+    276            /* USER CODE BEGIN Init */
+    277          
+    278            /* USER CODE END Init */
+    279          
+    280            /* Configure the system clock */
+    281            SystemClock_Config();
+    282          
+    283            /* USER CODE BEGIN SysInit */
+    284             
+    285            /* USER CODE END SysInit */
+    286          
+    287            /* Initialize all configured peripherals */
+    288            MX_GPIO_Init();
+    289            MX_TIM2_Init();
+    290            MX_TIM4_Init();
+    291            /* USER CODE BEGIN 2 */
+    292            init();
+    293           // LCDdoProcess();
+    294          //  command(0x00);
+    295          //  write(0x30);
+    296            HAL_TIM_IC_Start_IT(&htim2, TIM_CHANNEL_1);
+    297            HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1);
+    298            //HAL_TIM_Base_Start_IT(&htim2);
+    299            /* USER CODE END 2 */
+    300          
+    301            /* Infinite loop */
+    302            /* USER CODE BEGIN WHILE */
+    303            while (1)
+    304            {
+    305               //LCDDtop();
+    306           //command(0x00);
+    307            write(0x33);
+    308                  //start signal has been triggered.
+    309              if(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_2) == 1){
+    310                printf("**=== Start Signal Triggered ===**\n");
+    311                printf("Beginning process\n");
+    312                startProcess();     
+    313                doProcess();
+    314                 if(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_3) == 1){
+    315                  TIM4->CCR1=0;
+    316                  }
+    317               endProcess();
+    318              }
+    319              if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_14) == 0){
+    320                //if triggered then go into reset mode
+    321                while(HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_12) == 1){
+    322                  printf("**Reseting Conveyor Belt**\n");
+    323                  backwardMotor(0);
+    324                }
+    325              }
+    326          //    else if(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_2) == 0 && HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_14) == 0){
+    327          //      scanf("%d",&reset); //scan for reset terminal input
+    328          //      if(reset == 1){
+    329          //      printf("***RESET INITIALIZED***\n");
+    330          //      printf("***Moving motor backwards\n***\n");
+    331          //      if(HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_11) == 1){
+    332          //      backwardMotor(0);
+    333          //      }
+    334          //      }
+    335          //    }
+    336              /* USER CODE END WHILE */
+    337          
+    338              /* USER CODE BEGIN 3 */
+    339            }
+    340            /* USER CODE END 3 */
+    341          }
+    342          
+    343          /**
+    344            * @brief System Clock Configuration
+    345            * @retval None
+    346            */
+    347          void SystemClock_Config(void)
+    348          {
+    349            RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+    350            RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+    351          
+    352            /**Configure the main internal regulator output voltage 
+    353            */
+    354            __HAL_RCC_PWR_CLK_ENABLE();
+    355            __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE1);
+    356            /**Initializes the CPU, AHB and APB busses clocks 
+    357            */
+    358            RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+    359            RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+    360            RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+    361            RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+    362            RCC_OscInitStruct.PLL.PLLM = 4;
+    363            RCC_OscInitStruct.PLL.PLLN = 180;
+    364            RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+    365            RCC_OscInitStruct.PLL.PLLQ = 7;
+    366            if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+    367            {
+    368              Error_Handler();
+    369            }
+    370            /**Activate the Over-Drive mode 
+    371            */
+    372            if (HAL_PWREx_EnableOverDrive() != HAL_OK)
+    373            {
+    374              Error_Handler();
+    375            }
+    376            /**Initializes the CPU, AHB and APB busses clocks 
+    377            */
+    378            RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+    379                                        |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
+    380            RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+    381            RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+    382            RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
+    383            RCC_ClkInitStruct.APB2CLKDivider = RCC_HCLK_DIV2;
+    384          
+    385            if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_5) != HAL_OK)
+    386            {
+    387              Error_Handler();
+    388            }
+    389          }
+    390          
+    391          /**
+    392            * @brief TIM2 Initialization Function
+    393            * @param None
+    394            * @retval None
+    395            */
+    396          static void MX_TIM2_Init(void)
+    397          {
+    398          
+    399            /* USER CODE BEGIN TIM2_Init 0 */
+    400          
+    401            /* USER CODE END TIM2_Init 0 */
+    402          
+    403            TIM_MasterConfigTypeDef sMasterConfig = {0};
+    404            TIM_IC_InitTypeDef sConfigIC = {0};
+    405          
+    406            /* USER CODE BEGIN TIM2_Init 1 */
+    407          
+    408            /* USER CODE END TIM2_Init 1 */
+    409            htim2.Instance = TIM2;
+    410            htim2.Init.Prescaler = 0;
+    411            htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+    412            htim2.Init.Period = 0xFFFFFFFF;
+    413            htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    414            if (HAL_TIM_IC_Init(&htim2) != HAL_OK)
+    415            {
+    416              Error_Handler();
+    417            }
+    418            sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+    419            sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+    420            if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+    421            {
+    422              Error_Handler();
+    423            }
+    424            sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_BOTHEDGE;
+    425            sConfigIC.ICSelection = TIM_ICSELECTION_DIRECTTI;
+    426            sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
+    427            sConfigIC.ICFilter = 0;
+    428            if (HAL_TIM_IC_ConfigChannel(&htim2, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
+    429            {
+    430              Error_Handler();
+    431            }
+    432            /* USER CODE BEGIN TIM2_Init 2 */
+    433          
+    434            /* USER CODE END TIM2_Init 2 */
+    435          
+    436          }
+    437          
+    438          /**
+    439            * @brief TIM4 Initialization Function
+    440            * @param None
+    441            * @retval None
+    442            */
+    443          static void MX_TIM4_Init(void)
+    444          {
+    445          
+    446            /* USER CODE BEGIN TIM4_Init 0 */
+    447          
+    448            /* USER CODE END TIM4_Init 0 */
+    449          
+    450            TIM_MasterConfigTypeDef sMasterConfig = {0};
+    451            TIM_OC_InitTypeDef sConfigOC = {0};
+    452          
+    453            /* USER CODE BEGIN TIM4_Init 1 */
+    454          
+    455            /* USER CODE END TIM4_Init 1 */
+    456            htim4.Instance = TIM4;
+    457            htim4.Init.Prescaler = 0;
+    458            htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+    459            htim4.Init.Period = 3000;
+    460            htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    461            if (HAL_TIM_PWM_Init(&htim4) != HAL_OK)
+    462            {
+    463              Error_Handler();
+    464            }
+    465            sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+    466            sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+    467            if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
+    468            {
+    469              Error_Handler();
+    470            }
+    471            sConfigOC.OCMode = TIM_OCMODE_PWM1;
+    472            sConfigOC.Pulse = 0;
+    473            sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+    474            sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+    475            if (HAL_TIM_PWM_ConfigChannel(&htim4, &sConfigOC, TIM_CHANNEL_1) != HAL_OK)
+    476            {
+    477              Error_Handler();
+    478            }
+    479            /* USER CODE BEGIN TIM4_Init 2 */
+    480          
+    481            /* USER CODE END TIM4_Init 2 */
+    482            HAL_TIM_MspPostInit(&htim4);
+    483          
+    484          }
+    485          
+    486          /**
+    487            * @brief GPIO Initialization Function
+    488            * @param None
+    489            * @retval None
+    490            */
+    491          static void MX_GPIO_Init(void)
+    492          {
+    493            GPIO_InitTypeDef GPIO_InitStruct = {0};
+    494          
+    495            /* GPIO Ports Clock Enable */
+    496            __HAL_RCC_GPIOE_CLK_ENABLE();
+    497            __HAL_RCC_GPIOC_CLK_ENABLE();
+    498            __HAL_RCC_GPIOF_CLK_ENABLE();
+    499            __HAL_RCC_GPIOH_CLK_ENABLE();
+    500            __HAL_RCC_GPIOA_CLK_ENABLE();
+    501            __HAL_RCC_GPIOD_CLK_ENABLE();
+    502            __HAL_RCC_GPIOG_CLK_ENABLE();
+    503          
+    504            /*Configure GPIO pin Output Level */
+    505            HAL_GPIO_WritePin(GPIOC, GREENLED_Pin|YELLOWLED_Pin|REDLED_Pin, GPIO_PIN_RESET);
+    506          
+    507            /*Configure GPIO pin Output Level */
+    508            HAL_GPIO_WritePin(GPIOF, RS_Pin|RW_Pin, GPIO_PIN_RESET);
+    509          
+    510            /*Configure GPIO pin Output Level */
+    511            HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 
+    512                                    |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7, GPIO_PIN_RESET);
+    513          
+    514            /*Configure GPIO pin Output Level */
+    515            HAL_GPIO_WritePin(GPIOG, audioOUT_Pin|forMOTOR_Pin|revMOTOR_Pin, GPIO_PIN_RESET);
+    516          
+    517            /*Configure GPIO pins : START_Pin STOP_Pin */
+    518            GPIO_InitStruct.Pin = START_Pin|STOP_Pin;
+    519            GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    520            GPIO_InitStruct.Pull = GPIO_NOPULL;
+    521            HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+    522          
+    523            /*Configure GPIO pins : GREENLED_Pin YELLOWLED_Pin REDLED_Pin */
+    524            GPIO_InitStruct.Pin = GREENLED_Pin|YELLOWLED_Pin|REDLED_Pin;
+    525            GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    526            GPIO_InitStruct.Pull = GPIO_NOPULL;
+    527            GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    528            HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+    529          
+    530            /*Configure GPIO pins : RS_Pin RW_Pin */
+    531            GPIO_InitStruct.Pin = RS_Pin|RW_Pin;
+    532            GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    533            GPIO_InitStruct.Pull = GPIO_NOPULL;
+    534            GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    535            HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+    536          
+    537            /*Configure GPIO pin : En_Pin */
+    538            GPIO_InitStruct.Pin = En_Pin;
+    539            GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+    540            GPIO_InitStruct.Pull = GPIO_NOPULL;
+    541            HAL_GPIO_Init(En_GPIO_Port, &GPIO_InitStruct);
+    542          
+    543            /*Configure GPIO pin : pulseCount_Pin */
+    544            GPIO_InitStruct.Pin = pulseCount_Pin;
+    545            GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+    546            GPIO_InitStruct.Pull = GPIO_NOPULL;
+    547            HAL_GPIO_Init(pulseCount_GPIO_Port, &GPIO_InitStruct);
+    548          
+    549            /*Configure GPIO pins : PC11 PC12 */
+    550            GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
+    551            GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    552            GPIO_InitStruct.Pull = GPIO_NOPULL;
+    553            HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+    554          
+    555            /*Configure GPIO pins : PD0 PD1 PD2 PD3 
+    556                                     PD4 PD5 PD6 PD7 */
+    557            GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3 
+    558                                    |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
+    559            GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    560            GPIO_InitStruct.Pull = GPIO_NOPULL;
+    561            GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    562            HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+    563          
+    564            /*Configure GPIO pins : audioOUT_Pin forMOTOR_Pin revMOTOR_Pin */
+    565            GPIO_InitStruct.Pin = audioOUT_Pin|forMOTOR_Pin|revMOTOR_Pin;
+    566            GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    567            GPIO_InitStruct.Pull = GPIO_NOPULL;
+    568            GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+    569            HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+    570          
+    571            /*Configure GPIO pins : startIR_Pin stopIR_Pin directionSELECT_Pin */
+    572            GPIO_InitStruct.Pin = startIR_Pin|stopIR_Pin|directionSELECT_Pin;
+    573            GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+    574            GPIO_InitStruct.Pull = GPIO_NOPULL;
+    575            HAL_GPIO_Init(GPIOG, &GPIO_InitStruct);
+    576          
+    577            /* EXTI interrupt init*/
+    578            HAL_NVIC_SetPriority(EXTI15_10_IRQn, 0, 0);
+    579            HAL_NVIC_EnableIRQ(EXTI15_10_IRQn);
+    580          
+    581          }
+    582          
+    583          /* USER CODE BEGIN 4 */
+    584          /**
+    585           * This function is used to blink the start LED (green) five times at 1 blink/s 
+    586           * & output a frequency of 5KHz on the buzzer.
+    587          **/
+    588          static void startProcess(){
+    589            printf("**Start Process BEGIN**\n");
+    590            
+    591            command(0x00);
+    592            write(0x30);
+    593            
+    594            LCDstart();
+    595            //sound frequency of 5KHz turn on speaker
+    596            SysTick->CTRL=0x5;
+    597            SysTick->LOAD=18000;
+    598            SysTick->VAL=0;
+    599            SysTick->CTRL=0x7;
+    600            //Blink LED 5 times frequency of 1Hz
+    601            for(int i = 0; i < 5; i++){
+    602               HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_SET); //turn green LED on
+    603               HAL_Delay(1000); //1s delay
+    604               HAL_GPIO_WritePin(GPIOC,GPIO_PIN_13,GPIO_PIN_RESET); //turn green LED off
+    605               HAL_Delay(1000); //1s delay
+    606            }
+    607            //once process is complete green LED should be off so turn buzzer off too
+    608             SysTick->CTRL=0x0;
+    609             SysTick->LOAD=0;
+    610             SysTick->VAL=0;
+    611             SysTick->CTRL=0x0; 
+    612             printf("**Start Process END**\n");
+    613             
+    614            command(0x00);
+    615            write(0x30);
+    616          }
+    617          
+    618          /**
+    619           * This function is used to turn on our process LED (Yellow) to act as an IR
+    620           * Sensor that stays on while the conveyer belt is moving. System outputs
+    621           * PWM signal to drive motor and samples the frequency. Look for an active low
+    622           * 0-3.3V 
+    623          **/
+    624          static void doProcess(){
+    625            printf("**Do Process**\n");
+    626            //***TURN ON PERIPHERALS***
+    627            command(0x00);
+    628            write(0x30);
+    629            LCDdoProcess();
+    630            //Turn process LED (yellow) on
+    631            HAL_GPIO_WritePin(GPIOC,GPIO_PIN_14,GPIO_PIN_SET); //yellow LED ON
+    632          //  while(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_3) == 0){
+    633          //    doPWM();
+    634          //  }
+    635             while( HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_12) == 1 &&  HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_3) == 0){
+    636               if(edgeCount == 20){
+    637                 stopMotor();
+    638                 HAL_Delay(2000);
+    639                 printf("Motor stopped\n");
+    640                 edgeCount++;
+    641               }
+    642               if(edgeCount == 60){
+    643                 stopMotor();
+    644                 HAL_Delay(2000);
+    645                 printf("Motor stopped\n");
+    646                 edgeCount++;  
+    647               }
+    648                else{
+    649                 doPWM();
+    650               }
+    651                
+    652            }
+    653            //HAL_Delay(500); //temp delay to be filled by application logic
+    654            HAL_GPIO_WritePin(GPIOC,GPIO_PIN_14,GPIO_PIN_RESET); //yellow LED OFF
+    655            //***TURN OFF PERIPHERALS***
+    656            
+    657            //Sample PWM frequency output until the stop switch has been flipped
+    658            //Stop sampling
+    659            
+    660            printf("Sampling stopped\n");
+    661            //TODO: for now sample ends at stop and consider the belt stop here too.
+    662            //Stop motor
+    663            stopMotor();
+    664            printf("Motor stopped\n");
+    665            printf("Do Process END\n");
+    666            command(0x00);
+    667            write(0x30);
+    668          }
+    669          
+    670          static void endProcess(){
+    671            printf("**End Process Start**\n");
+    672             SysTick->CTRL=0x5;
+    673             SysTick->LOAD=30000;
+    674             SysTick->VAL=0;
+    675             SysTick->CTRL=0x7; 
+    676            
+    677            //Turn on Stop LED (RED)
+    678              for(int i = 0; i < 8; i++){
+    679               HAL_GPIO_WritePin(GPIOC,GPIO_PIN_15,GPIO_PIN_SET); //turn red LED on
+    680               HAL_Delay(500); //1s delay
+    681               HAL_GPIO_WritePin(GPIOC,GPIO_PIN_15,GPIO_PIN_RESET); //turn red LED off
+    682               HAL_Delay(500); //1s delay
+    683            }
+    684            
+    685             SysTick->CTRL=0x0;
+    686             SysTick->LOAD=0;
+    687             SysTick->VAL=0;
+    688             SysTick->CTRL=0x0; 
+    689             printf("**End Process END**\n");
+    690          }
+    691          static void doPWM(){
+    692            if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_14) == 1){
+    693          //    if(edgeCount > 40 && edgeCount <100){
+    694          //      stopMotor();
+    695          //    }
+    696          //    if(edgeCount > 100 && edgeCount < 160){
+    697          //      stopMotor();
+    698          //    }
+    699              forwardMotor(0);
+    700            }
+    701           if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_14) == 0){
+    702          //    if(edgeCount > 40 && edgeCount <100){
+    703          //      stopMotor();
+    704          //    }
+    705          //    if(edgeCount > 100 && edgeCount < 160){
+    706          //      stopMotor();
+    707          //    }
+    708              backwardMotor(0);
+    709            }
+    710          //  if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_12) == 1){
+    711          //    printf("Start Sensor HIGH!\n");
+    712          //  }
+    713          // if(HAL_GPIO_ReadPin(GPIOG,GPIO_PIN_12) == 0){
+    714          //    printf("Start Sensor LOW!\n");
+    715          //  }
+    716              if((freq>=4.35)&&(freq<4.5)){
+    717              TIM4->CCR1=2850;
+    718              }
+    719              if((freq>=4.65)&&(freq<4.8)){
+    720              TIM4->CCR1=2700;
+    721              }
+    722              if((freq>=4.75)&&(freq<4.9)){
+    723              TIM4->CCR1=2550;
+    724              }
+    725              if((freq>=4.85)&&(freq<5.0)){
+    726              TIM4->CCR1=2400;
+    727              }
+    728              if((freq>=4.95)&&(freq<5.1)){
+    729              TIM4->CCR1=2250;
+    730              }
+    731              if((freq>=5.05)&&(freq<5.2)){
+    732              TIM4->CCR1=2100;
+    733              }
+    734              if((freq>=5.15)&&(freq<5.3)){
+    735              TIM4->CCR1=1950;
+    736              }
+    737              if((freq>=5.25)&&(freq<5.4)){
+    738              TIM4->CCR1=1800;
+    739              }
+    740              if((freq>=5.35)&&(freq<5.5)){
+    741              TIM4->CCR1=1650;
+    742              }
+    743              if((freq>=5.45)&&(freq<5.6)){
+    744              TIM4->CCR1=1500;
+    745              }
+    746              if((freq>=5.55)&&(freq<5.7)){
+    747              TIM4->CCR1=1350;
+    748              }
+    749              if((freq>=5.65)&&(freq<5.8)){
+    750              TIM4->CCR1=1200;
+    751              }
+    752              if((freq>=5.75)&&(freq<5.9)){
+    753              TIM4->CCR1=1050;
+    754              }
+    755              if((freq>=5.85)&&(freq<6.0)){
+    756              TIM4->CCR1=900;
+    757              }
+    758              if((freq>=5.95)&&(freq<6.1)){
+    759              TIM4->CCR1=750;
+    760              }
+    761              if((freq>=6.05)&&(freq<6.2)){
+    762              TIM4->CCR1=600;
+    763              }
+    764              if((freq>=6.15)&&(freq<6.3)){
+    765              TIM4->CCR1=450;
+    766              }
+    767              if((freq>=6.25)&&(freq<6.4)){
+    768              TIM4->CCR1=300;
+    769              }
+    770              if((freq>=6.35)&&(freq<6.5)){
+    771              TIM4->CCR1=0;
+    772              }
+    773          }
+    774          
+    775          static void forwardMotor(int speed){
+    776            //printf("Motor moving forward\n");
+    777            HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_SET);
+    778            HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_RESET);
+    779          }
+    780          
+    781          static void backwardMotor(int speed){
+    782            //printf("Motor moving backward\n");
+    783            HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_SET);
+    784            HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_RESET);
+    785          }
+    786          
+    787          static void stopMotor(){
+    788            HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_RESET);
+    789            HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_RESET);
+    790          }
+    791          
+    792          //void command (int i){
+    793          //   GPIOD->ODR=i; // send to PD0-7
+    794          //   HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_RESET);//RS PF0
+    795          //   HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W PF1
+    796          //   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_SET);//E PF2
+    797          //   HAL_Delay(1);
+    798          //   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+    799          //}
+    800          //void write ( int i){
+    801          //   GPIOD->ODR=i; // send to PD0-7
+    802          //   HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_SET);//RS PF0
+    803          //   HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W PF1
+    804          //   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_SET);//E PF2
+    805          //   HAL_Delay(1);
+    806          //    HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+    807          //}
+    808          //void init(){
+    809          //   HAL_GPIO_WritePin(GPIOF, En_Pin,GPIO_PIN_RESET);//En PF2
+    810          //   HAL_Delay(100);
+    811          //   command(0x38);
+    812          //   HAL_Delay(5);
+    813          //   command(0x38);
+    814          //   HAL_Delay(1);
+    815          //   command(0x0C);
+    816          //   HAL_Delay(1);
+    817          //   command(0x01);
+    818          //   HAL_Delay(15);
+    819          //   //command(0x00);
+    820          //   //command(0x0F);
+    821          //   command(0x06);
+    822          //   HAL_Delay(1);
+    823          //}
+    824          //void functionSet(){
+    825          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0,GPIO_PIN_RESET);// PD0/DB0
+    826          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1,GPIO_PIN_RESET);//PD1/DB1
+    827          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2,GPIO_PIN_SET);//PD2/DB2
+    828          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3,GPIO_PIN_SET);//PD3/DB3
+    829          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4,GPIO_PIN_SET);//PD4/DB4
+    830          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_5,GPIO_PIN_SET);//PD5/DB5
+    831          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6,GPIO_PIN_RESET);//PD6/DB6
+    832          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7,GPIO_PIN_RESET);//PD7/DB7
+    833          //   HAL_GPIO_WritePin(GPIOC, RW_Pin,GPIO_PIN_RESET);//R/W
+    834          //   HAL_GPIO_WritePin(GPIOC, RS_Pin,GPIO_PIN_RESET);//RS
+    835          //   HAL_Delay(1);
+    836          //}
+    837          //
+    838          //void DisplyOnOff(){
+    839          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0,GPIO_PIN_SET);// PD0/DB0
+    840          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1,GPIO_PIN_SET);//PD1/DB1
+    841          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2,GPIO_PIN_SET);//PD2/DB2
+    842          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3,GPIO_PIN_SET);//PD3/DB3
+    843          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4,GPIO_PIN_RESET);//PD4/DB4
+    844          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_5,GPIO_PIN_RESET);//PD5/DB5
+    845          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6,GPIO_PIN_RESET);//PD6/DB6
+    846          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7,GPIO_PIN_RESET);//PD7/DB7
+    847          //   HAL_GPIO_WritePin(GPIOC, RW_Pin,GPIO_PIN_RESET);//R/W
+    848          //   HAL_GPIO_WritePin(GPIOC, RS_Pin,GPIO_PIN_RESET);//RS
+    849          //   HAL_Delay(1);
+    850          //}
+    851          //void DisplyClear(){
+    852          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0,GPIO_PIN_SET);// PD0/DB0
+    853          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1,GPIO_PIN_RESET);//PD1/DB1
+    854          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2,GPIO_PIN_RESET);//PD2/DB2
+    855          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3,GPIO_PIN_RESET);//PD3/DB3
+    856          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4,GPIO_PIN_RESET);//PD4/DB4
+    857          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_5,GPIO_PIN_RESET);//PD5/DB5
+    858          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6,GPIO_PIN_RESET);//PD6/DB6
+    859          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7,GPIO_PIN_RESET);//PD7/DB7
+    860          //   HAL_GPIO_WritePin(GPIOF, RW_Pin,GPIO_PIN_RESET);//R/W
+    861          //   HAL_GPIO_WritePin(GPIOF, RS_Pin,GPIO_PIN_RESET);//RS
+    862          //   HAL_Delay(2);
+    863          //}
+    864          //
+    865          //void EntryMode(){
+    866          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_0,GPIO_PIN_RESET);// PD0/DB0
+    867          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_1,GPIO_PIN_SET);//PD1/DB1
+    868          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_2,GPIO_PIN_SET);//PD2/DB2
+    869          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_3,GPIO_PIN_RESET);//PD3/DB3
+    870          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4,GPIO_PIN_RESET);//PD4/DB4
+    871          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_5,GPIO_PIN_RESET);//PD5/DB5
+    872          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_6,GPIO_PIN_RESET);//PD6/DB6
+    873          //   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_7,GPIO_PIN_RESET);//PD7/DB7
+    874          //   HAL_GPIO_WritePin(GPIOG, RW_Pin,GPIO_PIN_RESET);//R/W
+    875          //   HAL_GPIO_WritePin(GPIOG, RS_Pin,GPIO_PIN_RESET);//RS
+    876          //   HAL_Delay(1);
+    877          //}
+    878          //void LCDstart(){
+    879          //
+    880          //  // displays Start Signal Triggered
+    881          //      command(0x00); // start from first every time
+    882          //      write(0x25); // display * 
+    883          //      write(0x25); // display * 
+    884          //      write(0x3D); // display =
+    885          //      write(0x3D); // display =
+    886          //      write(0x3D); // display =
+    887          //      write(0x53); // display S
+    888          //      write(0x74); // display t
+    889          //      write(0x61); // display a
+    890          //      write(0x72); // display r
+    891          //      write(0x74); // display 
+    892          //      write(0x02); // display space
+    893          //      write(0x53); // display S
+    894          //      write(0x69); // display i
+    895          //      write(0x67); // display g
+    896          //      write(0x6D); // display n
+    897          //      write(0x61); // display a
+    898          //      write(0x6C); // display l
+    899          //      write(0x02); // display space
+    900          //      write(0x54); // display T
+    901          //      write(0x72); // display r
+    902          //      write(0x69); // display i
+    903          //      write(0x67); // display g
+    904          //      write(0x67); // display g
+    905          //      write(0x65); // display e
+    906          //      write(0x72); // display r
+    907          //      write(0x65); // display e
+    908          //      write(0x64); // display d
+    909          //      write(0x3D); // display =
+    910          //      write(0x3D); // display =
+    911          //      write(0x3D); // display =
+    912          //      write(0x25); // display * 
+    913          //      write(0x25); // display * 
+    914          //
+    915          //}
+    916          //void LCDdoProcess(){
+    917          //  // displays Do process
+    918          //      command(0x00); // start from first every time
+    919          //      write(0x3D); // display =
+    920          //      write(0x3D); // display =
+    921          //      write(0x3D); // display =
+    922          //      write(0x25); // display * 
+    923          //      write(0x25); // display * 
+    924          //      write(0x44); // display D
+    925          //      write(0x6F); // display o
+    926          //      write(0x02); // display space
+    927          //      write(0x50); // display P
+    928          //      write(0x72); // display r
+    929          //      write(0x6F); // display o
+    930          //      write(0x72); // display c
+    931          //      write(0x65); // display e
+    932          //      write(0x73); // display s
+    933          //      write(0x73); // display s
+    934          //      write(0x3D); // display =
+    935          //      write(0x3D); // display =
+    936          //      write(0x3D); // display =
+    937          //      write(0x25); // display * 
+    938          //      write(0x25); // display *
+    939          //
+    940          //}   
+    941          //void displayTemp(int temp){
+    942          //       if(temp==0){
+    943          //       //command(0x00);
+    944          //       write(0x30); // display 0
+    945          //       }
+    946          //       if(temp==1){
+    947          //       //command(0x00);
+    948          //       write(0x31); // display 1
+    949          //       }
+    950          //       if(temp==2){
+    951          //       //command(0x00);
+    952          //       write(0x32); // display 2
+    953          //       }
+    954          //      if(temp==3){
+    955          //       //command(0x00);
+    956          //       write(0x33); // display 3
+    957          //       }
+    958          //       if(temp==4){
+    959          //       //command(0x00);
+    960          //       write(0x34); // display 4
+    961          //       }
+    962          //      if(temp==5){
+    963          //       //command(0x00);
+    964          //       write(0x35); // display 5
+    965          //       }
+    966          //       if(temp==6){
+    967          //       //command(0x00);
+    968          //       write(0x36); // display 6
+    969          //       }
+    970          //       if(temp==7){
+    971          //      // command(0x00);
+    972          //       write(0x37); // display 7
+    973          //       }
+    974          //       if(temp==8){
+    975          //       //command(0x00);
+    976          //       write(0x38); // display 8
+    977          //       }
+    978          //       if(temp==9){
+    979          //       //command(0x00);
+    980          //       write(0x39); // display 9
+    981          //       }    
+    982          //
+    983          //}
+    984          //void splitNum(int temp){
+    985          //  int rem=0,val=0;
+    986          //  if(temp<=9){
+    987          //    displayTemp(temp);
+    988          //    }
+    989          //    if(temp<=99){
+    990          //    val=temp/10;
+    991          //    rem=temp%10;
+    992          //    displayTemp(val);
+    993          //    displayTemp(rem);
+    994          //    }
+    995          //}
+    996                            
+    997          /* USER CODE END 4 */
+    998          
+    999          /**
+   1000            * @brief  Period elapsed callback in non blocking mode
+   1001            * @note   This function is called  when TIM7 interrupt took place, inside
+   1002            * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+   1003            * a global variable "uwTick" used as application time base.
+   1004            * @param  htim : TIM handle
+   1005            * @retval None
+   1006            */
+   1007          void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+   1008          {
+   1009            /* USER CODE BEGIN Callback 0 */
+   1010          
+   1011            /* USER CODE END Callback 0 */
+   1012            if (htim->Instance == TIM7) {
+   1013              HAL_IncTick();
+   1014            }
+   1015            /* USER CODE BEGIN Callback 1 */
+   1016          
+   1017            /* USER CODE END Callback 1 */
+   1018          }
+   1019          
+   1020          /**
+   1021            * @brief  This function is executed in case of error occurrence.
+   1022            * @retval None
+   1023            */
+   1024          void Error_Handler(void)
+   1025          {
+   1026            /* USER CODE BEGIN Error_Handler_Debug */
+   1027            /* User can add his own implementation to report the HAL error return state */
+   1028          
+   1029            /* USER CODE END Error_Handler_Debug */
+   1030          }
+   1031          
+   1032          #ifdef  USE_FULL_ASSERT
+   1033          /**
+   1034            * @brief  Reports the name of the source file and the source line number
+   1035            *         where the assert_param error has occurred.
+   1036            * @param  file: pointer to the source file name
+   1037            * @param  line: assert_param error line source number
+   1038            * @retval None
+   1039            */
+   1040          void assert_failed(uint8_t *file, uint32_t line)
+   1041          { 
+   1042            /* USER CODE BEGIN 6 */
+   1043            /* User can add his own implementation to report the file name and line number,
+   1044               tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+   1045            /* USER CODE END 6 */
+   1046          }
+   1047          #endif /* USE_FULL_ASSERT */
+   1048          
+   1049          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   Error_Handler
+       0   HAL_TIM_PeriodElapsedCallback
+         0   -> HAL_IncTick
+       8   LCDDtop
+         8   -> command
+         0   -> write
+         8   -> write
+       8   LCDdoProcess
+         8   -> command
+         0   -> write
+         8   -> write
+       8   LCDstart
+         8   -> command
+         0   -> write
+         8   -> write
+      48   MX_GPIO_Init
+        48   -> HAL_GPIO_Init
+        48   -> HAL_GPIO_WritePin
+        48   -> HAL_NVIC_EnableIRQ
+        48   -> HAL_NVIC_SetPriority
+        48   -> __aeabi_memclr4
+      80   SystemClock_Config
+        80   -> HAL_PWREx_EnableOverDrive
+        80   -> HAL_RCC_ClockConfig
+        80   -> HAL_RCC_OscConfig
+        80   -> __aeabi_memclr4
+       8   backwardMotor
+         0   -> HAL_GPIO_WritePin
+         8   -> HAL_GPIO_WritePin
+       8   command
+         8   -> HAL_Delay
+         0   -> HAL_GPIO_WritePin
+         8   -> HAL_GPIO_WritePin
+       0   displayTemp
+         0   -> write
+      16   doPWM
+        16   -> HAL_GPIO_ReadPin
+        16   -> HAL_GPIO_WritePin
+        16   -> backwardMotor
+        16 __aeabi_cdcmple
+        16 __aeabi_cdrcmple
+       8   init
+         8   -> HAL_Delay
+         8   -> HAL_GPIO_WritePin
+         0   -> command
+         8   -> command
+      72   main
+        72   -> HAL_Delay
+        72   -> HAL_GPIO_ReadPin
+        72   -> HAL_GPIO_WritePin
+        72   -> HAL_Init
+        72   -> HAL_TIMEx_MasterConfigSynchronization
+        72   -> HAL_TIM_IC_ConfigChannel
+        72   -> HAL_TIM_IC_Init
+        72   -> HAL_TIM_IC_Start_IT
+        72   -> HAL_TIM_MspPostInit
+        72   -> HAL_TIM_PWM_ConfigChannel
+        72   -> HAL_TIM_PWM_Init
+        72   -> HAL_TIM_PWM_Start
+        72   -> LCDdoProcess
+        72   -> LCDstart
+        72   -> MX_GPIO_Init
+        72   -> SystemClock_Config
+        72   -> __aeabi_memclr4
+        72   -> backwardMotor
+        72   -> command
+        72   -> doPWM
+        72   -> init
+        72   -> printf
+        72   -> stopMotor
+        72   -> write
+      16   splitNum
+         0   -> displayTemp
+        16   -> displayTemp
+       8   stopMotor
+         0   -> HAL_GPIO_WritePin
+         8   -> HAL_GPIO_WritePin
+       8   write
+         8   -> HAL_Delay
+         0   -> HAL_GPIO_WritePin
+         8   -> HAL_GPIO_WritePin
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable27
+       4  ??DataTable27_1
+       4  ??DataTable27_10
+       4  ??DataTable27_11
+       4  ??DataTable27_12
+       4  ??DataTable27_13
+       4  ??DataTable27_14
+       4  ??DataTable27_15
+       4  ??DataTable27_16
+       4  ??DataTable27_17
+       4  ??DataTable27_18
+       4  ??DataTable27_19
+       4  ??DataTable27_2
+       4  ??DataTable27_20
+       4  ??DataTable27_21
+       4  ??DataTable27_22
+       4  ??DataTable27_23
+       4  ??DataTable27_24
+       4  ??DataTable27_25
+       4  ??DataTable27_26
+       4  ??DataTable27_27
+       4  ??DataTable27_28
+       4  ??DataTable27_29
+       4  ??DataTable27_3
+       4  ??DataTable27_30
+       4  ??DataTable27_31
+       4  ??DataTable27_32
+       4  ??DataTable27_33
+       4  ??DataTable27_34
+       4  ??DataTable27_35
+       4  ??DataTable27_36
+       4  ??DataTable27_37
+       4  ??DataTable27_38
+       4  ??DataTable27_39
+       4  ??DataTable27_4
+       4  ??DataTable27_40
+       4  ??DataTable27_41
+       4  ??DataTable27_42
+       4  ??DataTable27_43
+       4  ??DataTable27_44
+       4  ??DataTable27_45
+       4  ??DataTable27_46
+       4  ??DataTable27_47
+       4  ??DataTable27_48
+       4  ??DataTable27_49
+       4  ??DataTable27_5
+       4  ??DataTable27_50
+       4  ??DataTable27_51
+       4  ??DataTable27_52
+       4  ??DataTable27_53
+       4  ??DataTable27_54
+       4  ??DataTable27_55
+       4  ??DataTable27_56
+       4  ??DataTable27_57
+       4  ??DataTable27_6
+       4  ??DataTable27_7
+       4  ??DataTable27_8
+       4  ??DataTable27_9
+      42  ?Subroutine0
+      20  ?Subroutine1
+      10  ?Subroutine10
+       8  ?Subroutine11
+      10  ?Subroutine12
+      10  ?Subroutine13
+      12  ?Subroutine14
+      10  ?Subroutine15
+       8  ?Subroutine16
+      10  ?Subroutine17
+       8  ?Subroutine18
+       8  ?Subroutine19
+      12  ?Subroutine2
+      10  ?Subroutine20
+       8  ?Subroutine21
+      16  ?Subroutine3
+      10  ?Subroutine4
+      12  ?Subroutine5
+      10  ?Subroutine6
+       4  ?Subroutine7
+       4  ?Subroutine8
+      12  ?Subroutine9
+      36  ?_0
+      48  ?_1
+      28  ?_10
+      24  ?_11
+      16  ?_12
+      16  ?_13
+      20  ?_14
+      16  ?_15
+      24  ?_16
+      24  ?_17
+      20  ?_2
+      28  ?_3
+      20  ?_4
+       8  ?_5
+      16  ?_6
+       8  ?_7
+      28  ?_8
+      20  ?_9
+       2  Error_Handler
+      14  HAL_TIM_PeriodElapsedCallback
+      32  LCDDtop
+      14  LCDdoProcess
+      46  LCDstart
+     356  MX_GPIO_Init
+     154  SystemClock_Config
+       8  backwardMotor
+      10  command
+      80  displayTemp
+     598  doPWM
+       8  fall
+       8  freq
+     120  htim2
+          htim4
+      80  init
+       4  j
+     650  main
+       8  period
+       4  reset
+       8  rise
+       4  s
+      50  splitNum
+       6  stopMotor
+       8  write
+
+ 
+   160 bytes in section .bss
+     4 bytes in section .data
+   168 bytes in section .rodata
+ 2 826 bytes in section .text
+ 
+ 2 826 bytes of CODE  memory
+   168 bytes of CONST memory
+   164 bytes of DATA  memory
+
+Errors: none
+Warnings: none

@@ -1,0 +1,417 @@
+###############################################################################
+#
+# IAR ANSI C/C++ Compiler V8.32.2.178/W32 for ARM         19/Apr/2019  15:28:56
+# Copyright 1999-2018 IAR Systems AB.
+#
+#    Cpu mode     =  
+#    Endian       =  little
+#    Source file  =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\stm32f4xx_it.c
+#    Command line =  
+#        -f C:\Users\chris\AppData\Local\Temp\EW771E.tmp
+#        ("L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\stm32f4xx_it.c"
+#        -D USE_HAL_DRIVER -D STM32F429xx -lcN "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\List"
+#        -o "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\Obj"
+#        --debug --endian=little --cpu=Cortex-M4 -e --fpu=VFPv4_sp
+#        --dlib_config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.2\arm\inc\c\DLib_Config_Full.h" -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Inc\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Device/ST/STM32F4xx/Include\"
+#        -I "L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Include\"
+#        -Ohz -I "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.2\arm\CMSIS\Core\Include\" -I "C:\Program Files (x86)\IAR
+#        Systems\Embedded Workbench 8.2\arm\CMSIS\DSP\Include\")
+#    Locale       =  C
+#    List file    =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\List\stm32f4xx_it.lst
+#    Object file  =  
+#        L:\Classes\MicroProcessor
+#        Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM\pwmtry\Obj\stm32f4xx_it.o
+#
+###############################################################################
+
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\stm32f4xx_it.c
+      1          /* USER CODE BEGIN Header */
+      2          /**
+      3            ******************************************************************************
+      4            * @file    stm32f4xx_it.c
+      5            * @brief   Interrupt Service Routines.
+      6            ******************************************************************************
+      7            *
+      8            * COPYRIGHT(c) 2019 STMicroelectronics
+      9            *
+     10            * Redistribution and use in source and binary forms, with or without modification,
+     11            * are permitted provided that the following conditions are met:
+     12            *   1. Redistributions of source code must retain the above copyright notice,
+     13            *      this list of conditions and the following disclaimer.
+     14            *   2. Redistributions in binary form must reproduce the above copyright notice,
+     15            *      this list of conditions and the following disclaimer in the documentation
+     16            *      and/or other materials provided with the distribution.
+     17            *   3. Neither the name of STMicroelectronics nor the names of its contributors
+     18            *      may be used to endorse or promote products derived from this software
+     19            *      without specific prior written permission.
+     20            *
+     21            * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+     22            * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+     23            * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+     24            * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+     25            * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+     26            * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+     27            * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+     28            * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+     29            * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+     30            * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+     31            *
+     32            ******************************************************************************
+     33            */
+     34          /* USER CODE END Header */
+     35          
+     36          /* Includes ------------------------------------------------------------------*/
+     37          #include "main.h"
+     38          #include "stm32f4xx_it.h"
+     39          /* Private includes ----------------------------------------------------------*/
+     40          /* USER CODE BEGIN Includes */
+     41          /* USER CODE END Includes */
+     42          
+     43          /* Private typedef -----------------------------------------------------------*/
+     44          /* USER CODE BEGIN TD */
+     45          
+     46          /* USER CODE END TD */
+     47          
+     48          /* Private define ------------------------------------------------------------*/
+     49          /* USER CODE BEGIN PD */
+     50           
+     51          /* USER CODE END PD */
+     52          
+     53          /* Private macro -------------------------------------------------------------*/
+     54          /* USER CODE BEGIN PM */
+     55          
+     56          /* USER CODE END PM */
+     57          
+     58          /* Private variables ---------------------------------------------------------*/
+     59          /* USER CODE BEGIN PV */
+     60          extern int s;
+     61          extern double fall,rise;
+     62          extern double period, freq;
+     63          double currPosInch = 0;
+     64          int edgeCount = 0;
+     65          /* USER CODE END PV */
+     66          
+     67          /* Private function prototypes -----------------------------------------------*/
+     68          /* USER CODE BEGIN PFP */
+     69          /* USER CODE END PFP */
+     70          
+     71          /* Private user code ---------------------------------------------------------*/
+     72          /* USER CODE BEGIN 0 */
+     73          
+     74          /* USER CODE END 0 */
+     75          
+     76          /* External variables --------------------------------------------------------*/
+     77          extern TIM_HandleTypeDef htim2;
+     78          extern TIM_HandleTypeDef htim7;
+     79          
+     80          /* USER CODE BEGIN EV */
+     81          
+     82          /* USER CODE END EV */
+     83          
+     84          /******************************************************************************/
+     85          /*           Cortex-M4 Processor Interruption and Exception Handlers          */ 
+     86          /******************************************************************************/
+     87          /**
+     88            * @brief This function handles Non maskable interrupt.
+     89            */
+     90          void NMI_Handler(void)
+     91          {
+     92            /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
+     93          
+     94            /* USER CODE END NonMaskableInt_IRQn 0 */
+     95            /* USER CODE BEGIN NonMaskableInt_IRQn 1 */
+     96          
+     97            /* USER CODE END NonMaskableInt_IRQn 1 */
+     98          }
+     99          
+    100          /**
+    101            * @brief This function handles Hard fault interrupt.
+    102            */
+    103          void HardFault_Handler(void)
+    104          {
+    105            /* USER CODE BEGIN HardFault_IRQn 0 */
+    106          
+    107            /* USER CODE END HardFault_IRQn 0 */
+    108            while (1)
+    109            {
+    110              /* USER CODE BEGIN W1_HardFault_IRQn 0 */
+    111              /* USER CODE END W1_HardFault_IRQn 0 */
+    112            }
+    113          }
+    114          
+    115          /**
+    116            * @brief This function handles Memory management fault.
+    117            */
+    118          void MemManage_Handler(void)
+    119          {
+    120            /* USER CODE BEGIN MemoryManagement_IRQn 0 */
+    121          
+    122            /* USER CODE END MemoryManagement_IRQn 0 */
+    123            while (1)
+    124            {
+    125              /* USER CODE BEGIN W1_MemoryManagement_IRQn 0 */
+    126              /* USER CODE END W1_MemoryManagement_IRQn 0 */
+    127            }
+    128          }
+    129          
+    130          /**
+    131            * @brief This function handles Pre-fetch fault, memory access fault.
+    132            */
+    133          void BusFault_Handler(void)
+    134          {
+    135            /* USER CODE BEGIN BusFault_IRQn 0 */
+    136          
+    137            /* USER CODE END BusFault_IRQn 0 */
+    138            while (1)
+    139            {
+    140              /* USER CODE BEGIN W1_BusFault_IRQn 0 */
+    141              /* USER CODE END W1_BusFault_IRQn 0 */
+    142            }
+    143          }
+    144          
+    145          /**
+    146            * @brief This function handles Undefined instruction or illegal state.
+    147            */
+    148          void UsageFault_Handler(void)
+    149          {
+    150            /* USER CODE BEGIN UsageFault_IRQn 0 */
+    151          
+    152            /* USER CODE END UsageFault_IRQn 0 */
+    153            while (1)
+    154            {
+    155              /* USER CODE BEGIN W1_UsageFault_IRQn 0 */
+    156              /* USER CODE END W1_UsageFault_IRQn 0 */
+    157            }
+    158          }
+    159          
+    160          /**
+    161            * @brief This function handles System service call via SWI instruction.
+    162            */
+    163          void SVC_Handler(void)
+    164          {
+    165            /* USER CODE BEGIN SVCall_IRQn 0 */
+    166          
+    167            /* USER CODE END SVCall_IRQn 0 */
+    168            /* USER CODE BEGIN SVCall_IRQn 1 */
+    169          
+    170            /* USER CODE END SVCall_IRQn 1 */
+    171          }
+    172          
+    173          /**
+    174            * @brief This function handles Debug monitor.
+    175            */
+    176          void DebugMon_Handler(void)
+    177          {
+    178            /* USER CODE BEGIN DebugMonitor_IRQn 0 */
+    179          
+    180            /* USER CODE END DebugMonitor_IRQn 0 */
+    181            /* USER CODE BEGIN DebugMonitor_IRQn 1 */
+    182          
+    183            /* USER CODE END DebugMonitor_IRQn 1 */
+    184          }
+    185          
+    186          /**
+    187            * @brief This function handles Pendable request for system service.
+    188            */
+    189          void PendSV_Handler(void)
+    190          {
+    191            /* USER CODE BEGIN PendSV_IRQn 0 */
+    192          
+    193            /* USER CODE END PendSV_IRQn 0 */
+    194            /* USER CODE BEGIN PendSV_IRQn 1 */
+    195          
+    196            /* USER CODE END PendSV_IRQn 1 */
+    197          }
+    198          
+    199          /**
+    200            * @brief This function handles System tick timer.
+    201            */
+    202          void SysTick_Handler(void)
+    203          {
+    204            /* USER CODE BEGIN SysTick_IRQn 0 */
+    205            
+    206          
+    207            /* USER CODE END SysTick_IRQn 0 */
+    208            
+    209            /* USER CODE BEGIN SysTick_IRQn 1 */
+    210          
+    211          
+    212            HAL_GPIO_TogglePin(GPIOG,GPIO_PIN_9);
+    213            /* USER CODE END SysTick_IRQn 1 */
+    214          }
+    215          
+    216          /******************************************************************************/
+    217          /* STM32F4xx Peripheral Interrupt Handlers                                    */
+    218          /* Add here the Interrupt Handlers for the used peripherals.                  */
+    219          /* For the available peripheral interrupt handler names,                      */
+    220          /* please refer to the startup file (startup_stm32f4xx.s).                    */
+    221          /******************************************************************************/
+    222          
+    223          /**
+    224            * @brief This function handles TIM2 global interrupt.
+    225            */
+    226          void TIM2_IRQHandler(void)
+    227          {
+    228            /* USER CODE BEGIN TIM2_IRQn 0 */
+    229          
+    230            /* USER CODE END TIM2_IRQn 0 */
+    231            HAL_TIM_IRQHandler(&htim2);
+    232            /* USER CODE BEGIN TIM2_IRQn 1 */
+    233          
+    234            if(s==1){
+    235            rise= TIM2->CCR1;
+    236            s=0;
+    237            }else{
+    238            fall= TIM2->CCR1;
+    239            period =2.0*(1*(fall-rise))/90;
+    240            freq=(1000.0/period);
+    241            s=1;
+    242            }
+    243           
+    244            /* USER CODE END TIM2_IRQn 1 */
+    245          }
+    246          
+    247          /**
+    248            * @brief This function handles EXTI line[15:10] interrupts.
+    249            */
+    250          void EXTI15_10_IRQHandler(void)
+    251          {
+    252            /* USER CODE BEGIN EXTI15_10_IRQn 0 */
+    253          
+    254            /* USER CODE END EXTI15_10_IRQn 0 */
+    255            HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_10);
+    256            /* USER CODE BEGIN EXTI15_10_IRQn 1 */
+    257            //Interrupt triggered on rising edge
+    258            //every 8 detected edges will equal one block
+    259            //so 20 edges = 2.5 cm = 1 inch
+    260            //24 blocks in total
+    261            //stop at 4 blocks in and 20 blocks in
+    262            // 8 edges = 1cm = 
+    263            //160 edges in length
+    264            edgeCount++;
+    265            currPosInch += 0.049; //inch per pulse
+    266          //    if(edgeCount > 40 && edgeCount <100){
+    267          //        HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_RESET);
+    268          //  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_RESET);
+    269          //    }
+    270          //    if(edgeCount > 100 && edgeCount < 160){
+    271          //        HAL_GPIO_WritePin(GPIOG, GPIO_PIN_11,GPIO_PIN_RESET);
+    272          //  HAL_GPIO_WritePin(GPIOG, GPIO_PIN_10,GPIO_PIN_RESET);
+    273          //    }
+    274            printf("Rising pulse edge %d\n",edgeCount);
+    275            printf("Current position in inches = %.2f\n",currPosInch);
+    276            /* USER CODE END EXTI15_10_IRQn 1 */
+    277          }
+    278          
+    279          /**
+    280            * @brief This function handles TIM7 global interrupt.
+    281            */
+    282          void TIM7_IRQHandler(void)
+    283          {
+    284            /* USER CODE BEGIN TIM7_IRQn 0 */
+    285          
+    286            /* USER CODE END TIM7_IRQn 0 */
+    287            HAL_TIM_IRQHandler(&htim7);
+    288            /* USER CODE BEGIN TIM7_IRQn 1 */
+    289          
+    290            /* USER CODE END TIM7_IRQn 1 */
+    291          }
+    292          
+    293          /* USER CODE BEGIN 1 */
+    294          
+    295          /* USER CODE END 1 */
+    296          /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
+   Maximum stack usage in bytes:
+
+   .cstack Function
+   ------- --------
+       0   BusFault_Handler
+       0   DebugMon_Handler
+      16   EXTI15_10_IRQHandler
+        16   -> HAL_GPIO_EXTI_IRQHandler
+        16   -> __aeabi_dadd
+         0   -> printf
+        16   -> printf
+       0   HardFault_Handler
+       0   MemManage_Handler
+       0   NMI_Handler
+       0   PendSV_Handler
+       0   SVC_Handler
+       0   SysTick_Handler
+         0   -> HAL_GPIO_TogglePin
+      16   TIM2_IRQHandler
+        16   -> HAL_TIM_IRQHandler
+        16   -> __aeabi_ddiv
+        16   -> __aeabi_dmul
+        16   -> __aeabi_dsub
+        16   -> __aeabi_ui2d
+       0   TIM7_IRQHandler
+         0   -> HAL_TIM_IRQHandler
+       0   UsageFault_Handler
+
+
+   Section sizes:
+
+   Bytes  Function/Label
+   -----  --------------
+       4  ??DataTable5
+       4  ??DataTable5_1
+       4  ??DataTable5_10
+       4  ??DataTable5_11
+       4  ??DataTable5_12
+       4  ??DataTable5_13
+       4  ??DataTable5_14
+       4  ??DataTable5_2
+       4  ??DataTable5_3
+       4  ??DataTable5_4
+       4  ??DataTable5_5
+       4  ??DataTable5_6
+       4  ??DataTable5_7
+       4  ??DataTable5_8
+       4  ??DataTable5_9
+      36  ?_0
+      24  ?_1
+       2  BusFault_Handler
+       2  DebugMon_Handler
+      56  EXTI15_10_IRQHandler
+       2  HardFault_Handler
+       2  MemManage_Handler
+       2  NMI_Handler
+       2  PendSV_Handler
+       2  SVC_Handler
+      10  SysTick_Handler
+     112  TIM2_IRQHandler
+       6  TIM7_IRQHandler
+       2  UsageFault_Handler
+      12  currPosInch
+          edgeCount
+
+ 
+  12 bytes in section .bss
+  36 bytes in section .rodata
+ 284 bytes in section .text
+ 
+ 284 bytes of CODE  memory
+  36 bytes of CONST memory
+  12 bytes of DATA  memory
+
+Errors: none
+Warnings: none

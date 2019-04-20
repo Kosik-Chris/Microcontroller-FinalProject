@@ -1,19 +1,19 @@
-"C:\Users\ecelab\Desktop\pwmtry\Src\system_stm32f4xx.c"
+"L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src\system_stm32f4xx.c"
 -std=c11
 -ferror-limit=0
 -fbracket-depth=512
 -I
-C:\Users\ecelab\Desktop\pwmtry\Src
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Src
 -I
-C:\Users\ecelab\Desktop\pwmtry\EWARM/../Inc
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Inc
 -I
-C:\Users\ecelab\Desktop\pwmtry\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc
 -I
-C:\Users\ecelab\Desktop\pwmtry\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy
 -I
-C:\Users\ecelab\Desktop\pwmtry\EWARM/../Drivers/CMSIS/Device/ST/STM32F4xx/Include
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Device/ST/STM32F4xx/Include
 -I
-C:\Users\ecelab\Desktop\pwmtry\EWARM/../Drivers/CMSIS/Include
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\EWARM/../Drivers/CMSIS/Include
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\CMSIS\Core\Include
 -I
@@ -23,15 +23,15 @@ C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\inc
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\inc\c
 -I
-C:\Users\ecelab\Desktop\pwmtry\Inc
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Inc
 -I
-C:\Users\ecelab\Desktop\pwmtry\Drivers\STM32F4xx_HAL_Driver\Inc
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Drivers\STM32F4xx_HAL_Driver\Inc
 -I
-C:\Users\ecelab\Desktop\pwmtry\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Drivers\STM32F4xx_HAL_Driver\Inc\Legacy
 -I
-C:\Users\ecelab\Desktop\pwmtry\Drivers\CMSIS\Device\ST\STM32F4xx\Include
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Drivers\CMSIS\Device\ST\STM32F4xx\Include
 -I
-C:\Users\ecelab\Desktop\pwmtry\Drivers\CMSIS\Include
+L:\Classes\MicroProcessor Apps\Projects\ThatMemeyBoi\Microcontroller-FinalProject\Drivers\CMSIS\Include
 -I
 C:\Program Files (x86)\IAR Systems\Embedded Workbench 8.2\arm\CMSIS\Core\Include
 -I
